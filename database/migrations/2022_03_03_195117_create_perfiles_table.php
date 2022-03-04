@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePerfilsTable extends Migration
+class CreatePerfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePerfilsTable extends Migration
      */
     public function up()
     {
-        Schema::create('perfils', function (Blueprint $table) {
+        Schema::create('perfiles', function (Blueprint $table) {
             $table->id();
             $table->string('domicilio', 255);
             $table->string('localidad', 100);
@@ -31,6 +31,6 @@ class CreatePerfilsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perfils');
+        Schema::dropIfExists('perfiles');
     }
 }
