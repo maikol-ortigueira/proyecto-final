@@ -18,6 +18,11 @@ class CreateRecetasTable extends Migration
             $table->string('nombre', 255);
             $table->text('descripcion');
             $table->integer('raciones');
+            $table->bigInteger('categoria_id')->unsigned();
+            $table->foreign('categoria_id')
+                ->references('id')
+                ->on('categorias')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

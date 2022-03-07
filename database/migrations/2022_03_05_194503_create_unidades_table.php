@@ -16,6 +16,11 @@ class CreateUnidadesTable extends Migration
         Schema::create('unidades', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 120);
+            $table->bigInteger('categoria_id')->unsigned();
+            $table->foreign('categoria_id')
+                ->references('id')
+                ->on('categorias')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

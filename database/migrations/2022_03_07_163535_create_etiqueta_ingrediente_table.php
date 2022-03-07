@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIngredienteRecetaTable extends Migration
+class CreateEtiquetaIngredienteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateIngredienteRecetaTable extends Migration
      */
     public function up()
     {
-        Schema::table('ingrediente_receta', function (Blueprint $table) {
-            $table->primary(['ingrediente_id', 'receta_id']);
+        Schema::create('etiqueta_ingrediente', function (Blueprint $table) {
+            $table->primary(['etiqueta_id', 'ingrediente_id']);
+            $table->bigInteger('etiqueta_id')->unsigned();
             $table->bigInteger('ingrediente_id')->unsigned();
-            $table->bigInteger('receta_id')->unsigned();
-            $table->foreign('ingrediente_id')
-                ->references('id')
-                ->on('ingredientes')
-                ->onDelete('cascade');
             $table->foreign('etiqueta_id')
                 ->references('id')
                 ->on('etiquetas')
+                ->onDelete('cascade');
+            $table->foreign('ingrediente_id')
+                ->references('id')
+                ->on('ingredientes')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -36,8 +36,6 @@ class CreateIngredienteRecetaTable extends Migration
      */
     public function down()
     {
-        Schema::table('ingrediente_receta', function (Blueprint $table) {
-            Schema::dropIfExists('ingrediente_receta');
-        });
+        Schema::dropIfExists('etiqueta_ingrediente');
     }
 }

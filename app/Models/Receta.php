@@ -18,4 +18,9 @@ class Receta extends Model
     {
         return $this->belongsToMany(Ingrediente::class);
     }
+
+    public function categoria ()
+    {
+        return $this->hasOne(Categoria::class)->where('type', '=', Receta::class);
+    }
 }

@@ -14,7 +14,9 @@ class RecetaFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'nombre' => $this->faker->words(2),
+            'descripcion' => $this->faker->paragraph(),
+            'raciones' => rand(1,6),
         ];
     }
 }

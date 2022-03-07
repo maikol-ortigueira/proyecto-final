@@ -2,8 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Categoria;
+use App\Models\Receta;
+use App\Models\Unidad;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,5 +28,13 @@ class DatabaseSeeder extends Seeder
         ]);
         
         User::factory(10)->create();
+        $this->call(CategoriaSeeder::class);
+
+        //Receta::factory()->count(10)->hasCategoria()->create();
+/*          Receta::factory()
+            ->count(10)               
+            ->state(new Sequence(
+            fn ($sequence) => ['categoria_id' => Categoria::all()->random()],
+        ))->create(); */
     }
 }

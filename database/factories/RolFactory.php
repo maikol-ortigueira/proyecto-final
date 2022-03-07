@@ -2,12 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Receta;
-use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
-class CategoriaFactory extends Factory
+class RolFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +14,7 @@ class CategoriaFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->word(),
+            //
         ];
     }
 }
