@@ -9,6 +9,10 @@ class Receta extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre', 'descripcion', 'raciones'];
+
+    //protected $guards = [];
+
     /**
      * Relación con la tabla ingredientes
      *

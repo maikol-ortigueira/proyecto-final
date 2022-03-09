@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Receta;
 use Illuminate\Database\Seeder;
 
 class RecetaSeeder extends Seeder
@@ -13,6 +14,6 @@ class RecetaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Receta::factory(25)->create();
     }
 }

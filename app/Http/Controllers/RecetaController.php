@@ -8,6 +8,10 @@ use App\Models\Receta;
 
 class RecetaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,9 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        //
+        $recetas = Receta::all();
+
+        return view('recetas.index', ['recetas' => $recetas]);
     }
 
     /**
@@ -25,7 +31,7 @@ class RecetaController extends Controller
      */
     public function create()
     {
-        //
+        return view('recetas.edit');
     }
 
     /**
@@ -36,7 +42,7 @@ class RecetaController extends Controller
      */
     public function store(StoreRecetaRequest $request)
     {
-        //
+        return redirect(route('recetas.edit'));
     }
 
     /**
@@ -47,7 +53,7 @@ class RecetaController extends Controller
      */
     public function show(Receta $receta)
     {
-        //
+        return view('recetas.show');
     }
 
     /**
@@ -58,7 +64,7 @@ class RecetaController extends Controller
      */
     public function edit(Receta $receta)
     {
-        //
+        return view('recetas.edit');
     }
 
     /**
@@ -70,7 +76,16 @@ class RecetaController extends Controller
      */
     public function update(UpdateRecetaRequest $request, Receta $receta)
     {
-        //
+        // Validación del artículo
+        $data = $this->validate($request, [
+            'titulo' => 'required',
+            'texto' => 'required'
+        ]);
+
+        $receta->update($data);
+        $receta->etiquetas()->sync($request->etiquetas);
+
+        return back()->with('success', 'La receta se ha actualizado correctamente.');
     }
 
     /**
@@ -81,6 +96,8 @@ class RecetaController extends Controller
      */
     public function destroy(Receta $receta)
     {
-        //
+        $receta->delete();
+
+        return redirect()->route('recetas.index')->with('success', 'Receta eliminada!');
     }
 }

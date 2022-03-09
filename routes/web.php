@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RecetaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Rutas para la gestión de recetas
+Route::resource('recetas', RecetaController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
