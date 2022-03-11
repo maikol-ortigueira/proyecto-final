@@ -28,4 +28,24 @@ class Categoria extends Model
     {
         return $this->belongsToMany(Receta::class);
     }
+
+    /**
+     * Una categoría puede tener varias subcategoría
+     *
+     * @return void
+     */
+    public function subcategoria ()
+    {
+        return $this->hasMany(Categoria::class, 'parent_id');
+    }
+
+    /**
+     * Una subcategoria tiene una categoria padre
+     *
+     * @return void
+     */
+    public function parent ()
+    {
+        return $this->belongsTo(Categoria::class, 'id', 'parent_id');
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class IngredienteFactory extends Factory
 {
@@ -13,8 +15,12 @@ class IngredienteFactory extends Factory
      */
     public function definition()
     {
+        $unidades = Unidad::all()->pluck('id')->all();
+        $unidad = Arr::random($unidades);
+
         return [
             'nombre' => $this->faker->word(),
+            'unidad_id' => $unidad
         ];
     }
 }

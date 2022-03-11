@@ -9,6 +9,8 @@ class Unidad extends Model
 {
     use HasFactory;
 
+    protected $table = 'unidades';
+
     /**
      * Una unidad puede tener una categoría
      *
@@ -17,5 +19,15 @@ class Unidad extends Model
     public function categoria ()
     {
         return $this->hasOne(Categoria::class);
+    }
+
+    /**
+     * Una unidad puede pertenecer a varios ingredientes
+     *
+     * @return void
+     */
+    public function ingredientes ()
+    {
+        return $this->belongsToMany(Ingrediente::class);
     }
 }

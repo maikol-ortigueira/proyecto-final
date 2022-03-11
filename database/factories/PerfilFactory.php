@@ -14,7 +14,11 @@ class PerfilFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'domicilio' => $this->faker->address(),
+            'localidad' => $this->faker->city(),
+            'cp' => $this->faker->numberBetween(10000,99999),
+            'telefonos' => $this->faker->phoneNumber(),
+            'provincia' => $this->faker->city(),
         ];
     }
 }

@@ -51,6 +51,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Un usuario tiene un perfil
+     *
+     * @return void
+     */
+    public function perfil ()
+    {
+        return $this->hasOne(Perfil::class);
+    }
+
+    /**
+     * Un usuario puede tener varias recetas
+     *
+     * @return void
+     */
+    public function recetas ()
+    {
+        return $this->hasMany(Receta::class);
+    }
+
+    /**
      * Filtrar por los usuarios administradores
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
