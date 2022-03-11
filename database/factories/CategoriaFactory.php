@@ -2,10 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Receta;
-use App\Models\Unidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class CategoriaFactory extends Factory
 {

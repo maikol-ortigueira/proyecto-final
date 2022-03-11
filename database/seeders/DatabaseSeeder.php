@@ -2,13 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Categoria;
-use App\Models\Receta;
-use App\Models\Unidad;
+use App\Models\Etiqueta;
+use App\Models\Ingrediente;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,22 +16,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(RolSeeder::class);
+
         User::create([
             'name' => 'Maikol Fustes',
             'email' => 'maikol.ortigueira@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$MC8bbxmYp6NX8P4W6mKo4ertnh.OB0hBPAhghrQNuO90yToEwKnRi',
             'remember_token' => \Illuminate\Support\Str::random(10),
-        ]);
+        ])->roles()->sync([1]);
         
-        User::factory(10)->create();
+        $users = User::factory(10)->create();
+        foreach ($users as $user) {
+            $user->roles()->sync([rand(2,3)]);
+        }
+        //User::factory(5)->create()->roles()->sync([3]);
+        Etiqueta::factory(20)->create();
+        // Quitar el comentario a foto cuando necesitemos fotos. Tarde un poco en cargar
+        // Foto::factory(60)->create();
+        Ingrediente::factory(20)->create();
         $this->call(CategoriaSeeder::class);
-
-        //Receta::factory()->count(10)->hasCategoria()->create();
-/*          Receta::factory()
-            ->count(10)               
-            ->state(new Sequence(
-            fn ($sequence) => ['categoria_id' => Categoria::all()->random()],
-        ))->create(); */
+        $this->call(RecetaSeeder::class);
+        $this->call(PasoSeeder::class);
     }
 }

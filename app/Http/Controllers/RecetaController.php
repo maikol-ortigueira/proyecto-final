@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRecetaRequest;
 use App\Http\Requests\UpdateRecetaRequest;
+use App\Models\Categoria;
 use App\Models\Receta;
 
 class RecetaController extends Controller
@@ -20,7 +21,8 @@ class RecetaController extends Controller
     public function index()
     {
         $recetas = Receta::all();
-
+//         $categorias = Categoria::all()->where('type', '=' , Receta::class)->pluck('id');
+// dd($categorias);
         return view('recetas.index', ['recetas' => $recetas]);
     }
 

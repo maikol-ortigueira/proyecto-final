@@ -15,7 +15,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        $categorias = Categoria::orderByDesc('created_at');
+        ddd(Categoria::all());
+        return view('categorias.index', ['categorias' => Categoria::all()]);
     }
 
     /**

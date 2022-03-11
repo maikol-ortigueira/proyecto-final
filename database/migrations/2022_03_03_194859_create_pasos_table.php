@@ -17,7 +17,9 @@ class CreatePasosTable extends Migration
             $table->id();
             $table->string('nombre', 255);
             $table->text('descripcion');
-            $table->integer('num_paso');
+            $table->integer('orden');
+            $table->bigInteger('receta_id')->unsigned();
+            $table->foreign('receta_id')->references('id')->on('recetas')->onDelete('cascade');
             $table->timestamps();
         });
     }

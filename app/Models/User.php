@@ -43,6 +43,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Un usuario puede tener varios roles
+     */
+    public function roles () 
+    {
+        return $this->belongsToMany(Rol::class);
+    }
+
+    /**
      * Filtrar por los usuarios administradores
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query

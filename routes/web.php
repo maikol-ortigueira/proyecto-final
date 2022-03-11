@@ -14,15 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 // Rutas para la gestión de recetas
 Route::resource('recetas', RecetaController::class);
+Route::resource('categorias', RecetaController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('locale/{locale}', function ($locale) {
+    session()->put('locale', $locale);
+    return redirect()->back();
+});
+
+require __DIR__ . '/auth.php';

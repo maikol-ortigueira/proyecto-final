@@ -27,4 +27,9 @@ class Receta extends Model
     {
         return $this->hasOne(Categoria::class)->where('type', '=', Receta::class);
     }
+
+    public function pasos ()
+    {
+        return $this->hasMany(Paso::class);
+    }
 }
