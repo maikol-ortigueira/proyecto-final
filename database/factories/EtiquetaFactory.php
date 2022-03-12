@@ -16,10 +16,8 @@ class EtiquetaFactory extends Factory
      */
     public function definition()
     {
-        $type = Arr::random([Receta::class, Ingrediente::class]);
         return [
             'nombre' => $this->faker->word(),
-            'type' => $type
         ];
     }
 }

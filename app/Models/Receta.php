@@ -41,7 +41,7 @@ class Receta extends Model
      */
     public function etiquetas ()
     {
-        return $this->morphToMany(Etiqueta::class, 'modelo', 'etiquetables', 'etiqueta_id');
+        return $this->morphToMany(Etiqueta::class, 'etiquetable');
     }
 
     /**

@@ -14,10 +14,9 @@ class CreateEtiquetablesTable extends Migration
     public function up()
     {
         Schema::create('etiquetables', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('etiqueta_id');
-            $table->unsignedBigInteger('modelo_id');
-            $table->string('modelo_type');
+            $table->unsignedBigInteger('etiquetable_id');
+            $table->string('etiquetable_type');
             $table->timestamps();
         });
     }

@@ -42,11 +42,9 @@ class RecetaSeeder extends Seeder
                 $receta->ingredientes()->sync($ingredientes);
 
                 // Añadir etiquetas
-                $etiquetas = Arr::random(Etiqueta::all()->where('type', Receta::class)->all(), rand(1,4));
-                foreach ($etiquetas as $etiqueta) {
-    //dd($receta, $etiqueta);
-                    $etiqueta->recetas()->attach($receta);
-                }
+                $etiquetas = Arr::random(Etiqueta::all()->pluck('id')->all(), rand(1,4));
+
+                $receta->etiquetas()->attach($etiquetas);
                 //$receta->etiquetas()->attach($etiquetas);
 
                 // Añadir las fotos de la receta

@@ -16,7 +16,7 @@ class Etiqueta extends Model
      */
     public function recetas ()
     {
-        $this->morphedByMany(Receta::class, 'modelo', 'etiquetables', 'etiqueta_id');
+        $this->morphedByMany(Receta::class, 'etiquetable');
     }
 
     /**
@@ -26,6 +26,6 @@ class Etiqueta extends Model
      */
     public function ingredientes ()
     {
-        $this->morphedByMany(Ingrediente::class, 'modelo', 'etiquetables', 'etiqueta_id');
+        $this->morphedByMany(Ingrediente::class, 'etiquetable');
     }
 }
