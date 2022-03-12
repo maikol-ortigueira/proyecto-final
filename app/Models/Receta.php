@@ -20,7 +20,7 @@ class Receta extends Model
      */
     public function ingredientes () 
     {
-        return $this->hasMany(Ingrediente::class);
+        return $this->belongsToMany(Ingrediente::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class Receta extends Model
      */
     public function categoria ()
     {
-        return $this->hasOne(Categoria::class);
+        return $this->belongsTo(Categoria::class);
     }
 
     /**
@@ -41,7 +41,7 @@ class Receta extends Model
      */
     public function etiquetas ()
     {
-        return $this->morphToMany(Etiqueta::class, 'etiquetable');
+        return $this->morphToMany(Etiqueta::class, 'modelo', 'etiquetables', 'etiqueta_id');
     }
 
     /**
@@ -71,6 +71,6 @@ class Receta extends Model
      */
     public function fotos ()
     {
-        return $this->hasMany(Foto::class);
+        return $this->morphMany(Foto::class, 'modelo');
     }
 }

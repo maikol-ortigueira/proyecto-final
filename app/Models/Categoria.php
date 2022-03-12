@@ -12,21 +12,19 @@ class Categoria extends Model
     /**
      * Muchas unidades pueden pertencer a una categoría
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function unidades ()
     {
-        return $this->belongsToMany(Unidad::class);
+        return $this->hasMany(Unidad::class);
     }
 
     /**
      * Muchas recetas pueden pertenecer a una categoría
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function recetas ()
     {
-        return $this->belongsToMany(Receta::class);
+        return $this->hasMany(Receta::class);
     }
 
     /**
@@ -46,6 +44,6 @@ class Categoria extends Model
      */
     public function parent ()
     {
-        return $this->belongsTo(Categoria::class, 'id', 'parent_id');
+        return $this->belongsTo(Categoria::class, 'parent_id');
     }
 }

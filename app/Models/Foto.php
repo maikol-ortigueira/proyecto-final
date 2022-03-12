@@ -21,6 +21,11 @@ class Foto extends Model
 
     public function receta ()
     {
-        return $this->belongsTo(Receta::class);
+        return $this->hasOne(Receta::class);
+    }
+
+    public function modelo ()
+    {
+        return $this->morphTo();
     }
 }

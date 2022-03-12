@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         $roles = Rol::all()->where('nombre', '<>', 'superadmin')->pluck('id')->all();
-        //$perfil = 
 
         User::create([
             'name' => 'Maikol Fustes',

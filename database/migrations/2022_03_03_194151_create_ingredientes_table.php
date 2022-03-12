@@ -16,8 +16,8 @@ class CreateIngredientesTable extends Migration
         Schema::create('ingredientes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 120);
-            $table->bigInteger('unidad_id')->unsigned();
-            $table->foreign('unidad_id')->references('id')->on('unidades')->onUpdate('cascade');
+            $table->bigInteger('unidad_id')->unsigned()->nullable();
+            $table->foreign('unidad_id')->references('id')->on('unidades')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
     }

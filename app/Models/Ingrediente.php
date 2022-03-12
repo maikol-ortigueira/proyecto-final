@@ -26,7 +26,7 @@ class Ingrediente extends Model
      */
     public function etiquetas ()
     {
-        return $this->hasMany(Etiqueta::class);
+        return $this->morphToMany(Etiqueta::class, 'modelo', 'etiquetables', 'etiqueta_id');
     }
 
     /**

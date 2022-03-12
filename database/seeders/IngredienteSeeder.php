@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ingrediente;
 use Illuminate\Database\Seeder;
 
 class IngredienteSeeder extends Seeder
@@ -13,6 +14,6 @@ class IngredienteSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Ingrediente::factory(20)->create();
     }
 }

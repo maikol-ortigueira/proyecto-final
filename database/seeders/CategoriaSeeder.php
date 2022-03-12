@@ -19,7 +19,7 @@ class CategoriaSeeder extends Seeder
         Categoria::create(
             [
                 'nombre' => 'peso',
-                'type' => Unidad::class
+                'type' => Unidad::class,
             ]
         );
 

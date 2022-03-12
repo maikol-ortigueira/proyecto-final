@@ -14,8 +14,8 @@ class CreateIngredienteRecetaTable extends Migration
     public function up()
     {
         Schema::create('ingrediente_receta', function (Blueprint $table) {
-            $table->bigInteger('ingrediente_id')->unsigned();
             $table->primary(['ingrediente_id', 'receta_id']);
+            $table->bigInteger('ingrediente_id')->unsigned();
             $table->bigInteger('receta_id')->unsigned();
             $table->foreign('ingrediente_id')
             ->references('id')

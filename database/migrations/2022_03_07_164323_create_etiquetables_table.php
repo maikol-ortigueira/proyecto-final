@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEtiquetableTable extends Migration
+class CreateEtiquetablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateEtiquetableTable extends Migration
      */
     public function up()
     {
-        Schema::create('etiquetable', function (Blueprint $table) {
+        Schema::create('etiquetables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('etiqueta_id');
-            $table->bigInteger('etiquetable_id');
-            $table->string('etiquetable_type');
+            $table->unsignedBigInteger('etiqueta_id');
+            $table->unsignedBigInteger('modelo_id');
+            $table->string('modelo_type');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateEtiquetableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etiquetable');
+        Schema::dropIfExists('etiquetables');
     }
 }

@@ -23,6 +23,6 @@ class Perfil extends Model
 
     public function foto ()
     {
-        return $this->hasOne(Foto::class);
+        return $this->morphOne(Foto::class, 'modelo');
     }
 }

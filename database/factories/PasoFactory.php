@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Foto;
-use App\Models\Receta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PasoFactory extends Factory
@@ -15,8 +14,6 @@ class PasoFactory extends Factory
      */
     public function definition()
     {
-        $fotos = Foto::factory(1)->create;
-        
         return [
             'nombre' => $this->faker->word(),
             'descripcion' => $this->faker->paragraph(),
