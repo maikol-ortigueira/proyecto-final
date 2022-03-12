@@ -1,4 +1,4 @@
-<div class="border-primary-200 mb-8 border-b drop-shadow-md">
+<div class="border-primary-200 border-b drop-shadow-md">
   <div class="container mx-auto py-2">
     <div class="grid grid-cols-6 items-center gap-3">
       <div class="logo">

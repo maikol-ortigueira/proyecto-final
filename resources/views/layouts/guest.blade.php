@@ -20,7 +20,7 @@
     </head>
     <body class="text-default">
         <x-section.site-navbar />
-        <div class="font-sans container mx-auto antialiased">
+        <div class="font-sans mx-auto antialiased">
             {{ $slot }}
         </div>
         <x-section.site-footer />

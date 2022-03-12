@@ -6,6 +6,8 @@ use App\Http\Requests\StoreRecetaRequest;
 use App\Http\Requests\UpdateRecetaRequest;
 use App\Models\Categoria;
 use App\Models\Receta;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class RecetaController extends Controller
 {
@@ -18,12 +20,20 @@ class RecetaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $recetas = Receta::all();
+        $recetas = Receta::orderByDesc('created_at');
+
+        if ($request->has('tag'))
+        {
+            $etiqueta = $request->input('tag');
+
+            $recetas->whereHas('etiquetas', function (Builder $query) use ($etiqueta) {
+                $query->where('id', $etiqueta);
+            });
+        }
 //         $categorias = Categoria::all()->where('type', '=' , Receta::class)->pluck('id');
-// dd($categorias);
-        return view('recetas.index', ['recetas' => $recetas]);
+        return view('recetas.index', ['recetas' => $recetas->paginate(10)]);
     }
 
     /**
