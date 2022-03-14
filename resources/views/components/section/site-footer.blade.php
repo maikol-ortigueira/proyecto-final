@@ -18,8 +18,7 @@
                     <h3 class="text-2xl">{{ __('Site Map') }}</h3>
                     <div class="flex flex-row gap-8">
                         <div class="flex flex-col">
-                            <a href="{{ url('/') }}" class="hover:text-secondary-300 capitalize">{{ __('home') }}</a>
-                            <a href="{{ url('/recetas') }}" class="hover:text-secondary-300 capitalize">{{ __('receipts') }}</a>
+                            <a href="{{ url('/') }}" class="hover:text-secondary-300 capitalize">{{ __('recipes') }}</a>
                         </div>
                         <div class="flex flex-col">
                             <a href="{{ url('/contact') }}" class="hover:text-secondary-300 capitalize">{{ __('contact') }}</a>

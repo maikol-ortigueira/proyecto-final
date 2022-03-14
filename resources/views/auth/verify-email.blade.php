@@ -2,7 +2,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <x-svgs.logo-footer />
             </a>
         </x-slot>
 
@@ -21,9 +21,7 @@
                 @csrf
 
                 <div>
-                    <x-button>
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
+                    <x-button value='Resend Verification Email' size="small" />
                 </div>
             </form>
 

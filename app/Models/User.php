@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,10 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['roles'];
+
     /**
      * Un usuario puede tener varios roles
      */
-    public function roles () 
+    public function roles()
     {
         return $this->belongsToMany(Rol::class);
     }
@@ -55,7 +58,7 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function perfil ()
+    public function perfil()
     {
         return $this->hasOne(Perfil::class);
     }
@@ -65,7 +68,7 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function recetas ()
+    public function recetas()
     {
         return $this->hasMany(Receta::class);
     }
@@ -73,11 +76,22 @@ class User extends Authenticatable
     /**
      * Filtrar por los usuarios administradores
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return void
      */
-    public function scopeIsAdmin($query)
+    public function scopeIsAdmin($query, $tipos = array())
     {
-        $query->where('admin', 1);
+        $rolesAdmin = ['superadmin', 'editor'];
+
+        foreach ($this->roles as $rol) {
+            if (in_array($rol->nombre, $rolesAdmin)) {
+                if (count($tipos) > 0) {
+                    if (!in_array($rol->nombre, $tipos)) {
+                        continue;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminRecetaController;
 use App\Http\Controllers\RecetaController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [RecetaController::class, 'index'])->name('home');
 
 // Rutas para la gestión de recetas
-Route::resource('recetas', RecetaController::class);
+Route::resource('/recetas', RecetaController::class, ['only' => ['index', 'show']]);
+Route::resource('/admin/recetas', AdminRecetaController::class, ['names' => 'admin.recetas']);
 Route::resource('categorias', RecetaController::class);
 
-Route::get('/dashboard', function () {
+Route::get('/admin', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth', 'isadmin'])->name('dashboard');
 
 Route::get('locale/{locale}', function ($locale) {
     session()->put('locale', $locale);

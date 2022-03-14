@@ -10,12 +10,12 @@
       </div>
       <div x-data="{open: false}" class="relative">
         <div x-on:click="open = !open" x-on:click.outside="open = false"
-          class="w-36 inline-flex cursor-pointer justify-between rounded border py-1 px-3 pl-3">
+          class="inline-flex w-36 cursor-pointer justify-between rounded border py-1 px-3 pl-3">
           <span>
             @if (App::getLocale() == 'es')
-              {{ __('spanish') }}
+              Español
             @else
-              {{ __('english') }}
+              English
             @endif
           </span>
           <x-svgs.chevron-down class="w-4" />
@@ -24,25 +24,50 @@
           <div id="language-switcher"
             class="border-primary-100 absolute left-0 mt-4 w-32 rounded border bg-white pt-2 pb-4">
             <a href="{{ url('locale/es') }}"
-              class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">{{ __('spanish') }}</a>
+              class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">Español</a>
             <a href="{{ url('locale/en') }}"
-              class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">{{ __('english') }}</a>
+              class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">English</a>
           </div>
         </template>
       </div>
       <div id="main-menu" class="col-span-3 flex gap-4">
-        <a href="{{ url('/') }}" class="uppercase">{{ __('home') }}</a>
-        <a href="{{ url('/recetas') }}" class="uppercase">{{ __('receipts') }}</a>
+        <a href="{{ url('/') }}" class="uppercase">{{ __('recipes') }}</a>
         <a href="{{ url('/contacto') }}" class="uppercase">{{ __('contact') }}</a>
+
       </div>
       @if (Route::has('login'))
         <div class="hidden sm:inline-block">
           @auth
-            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline dark:text-gray-500">Dashboard</a>
+            <div class="relative" x-data="{open: false}">
+              <div class="inline-flex cursor-pointer items-center gap-2 text-sm" x-on:click="open = !open"
+                x-on:click.outside="open = false">
+                <p>
+                  {{ auth()->user()->name }}
+                </p>
+                <x-svgs.chevron-down />
+              </div>
+              <template x-if="open">
+                <div class="border-primary-100 absolute left-0 mt-4 w-48 rounded border bg-white pt-2 pb-4">
+                  @auth
+                    @if (auth()->user()->isAdmin())
+                      <a href="{{ url('/admin') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:text-primary-100 hover:bg-primary-300 focus:outline-none focus:bg-primary-300 transition duration-150 ease-in-out">{{ __('Dashboard') }}</a>
+                    @endif
+                  @endauth
+                  <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')"
+                      onclick="event.preventDefault(); this.closest('form').submit();">
+                      {{ __('Log Out') }}
+                    </x-dropdown-link>
+                  </form>
+                </div>
+              </template>
+            </div>
           @else
             <div class="relative" x-data="{open: false}">
-              <p x-on:click="open = !open" x-on:click.outside="open = false" class="inline-flex cursor-pointer border hover:bg-primary-500 border-primary-300 p-1 rounded-3xl">
-                <x-svgs.users class="hover:fill-white"/>
+              <p x-on:click="open = !open" x-on:click.outside="open = false"
+                class="hover:bg-primary-500 border-primary-300 inline-flex cursor-pointer rounded-3xl border p-1">
+                <x-svgs.users class="hover:fill-white" />
               </p>
               <template x-if="open">
                 <div class="border-primary-100 absolute left-0 mt-4 w-32 rounded border bg-white pt-2 pb-4">
@@ -50,7 +75,7 @@
                     class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">{{ __('Login') }}</a>
                   @if (Route::has('register'))
                     <a href="{{ route('register') }}"
-                      class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">Register</a>
+                      class="hover:bg-primary-300 block h-6 w-full pl-3 text-sm text-gray-700 hover:text-gray-100 dark:text-gray-500">{{ __('Register') }}</a>
                   @endif
                 </div>
               </template>
