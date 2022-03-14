@@ -18,10 +18,13 @@ class EsAutor
     public function handle(Request $request, Closure $next)
     {
 
-        $receta = Receta::where('id', $request->receta)->get('user_id');
+        $receta = $request->receta;
+        if (is_numeric($receta))
+        {
+            $receta = Receta::where('id', (int) $receta)->get()[0];
+        }
 
-        if (auth()->user()->id === (int)$receta[0]->user_id || auth()->user()->isAdmin(['superadmin'])) {
-
+        if (auth()->user() === $receta->autor || auth()->user()->isAdmin(['superadmin'])) {
             return $next($request);
         }
 

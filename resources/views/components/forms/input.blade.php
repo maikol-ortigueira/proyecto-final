@@ -9,8 +9,8 @@ $class = $errors->has($field)
         {{ $label }}{{ $required ? '(*)' : '' }}
     </label>
     <input
-        type="{{ $field }}"
-        id="{{ $field }}"
+        type="input"
+        :id="$name"
         name="{{ $field }}"
         class="{{ $class }}"
         placeholder="{{ $placeholder ?? $label }}" {{ $required ? ' required' : '' }}

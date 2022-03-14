@@ -13,7 +13,9 @@
         <!-- Styles -->
         {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
         {{-- <link rel="stylesheet" href="http://tailwindcss.com"> --}}
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.filesizejs.com/filesize.min.js"></script>
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
