@@ -16,6 +16,8 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
+        // Controlamos que el usuario es administrador
+        // El método isAdmin() está en el modelo de User
         if(auth()->user()->isAdmin())
         {
             return $next($request);

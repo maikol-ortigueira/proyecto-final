@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
+use App\Models\Etiqueta;
 use App\Models\Foto;
 use App\Models\Receta;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Input\Input;
 
 class AdminRecetaController extends Controller
 {
@@ -23,7 +23,9 @@ class AdminRecetaController extends Controller
      */
     public function index()
     {
-        // Mostrar solo las recetas del autor, y si el usuario es superadmin puede ver todas
+        // Mostrar solo las recetas del autor
+        // El superadministrador puede ver todas
+        // whereEsAutor() está en el modelo
         $recetas = Receta::whereEsAutor()->paginate(10);
 
         return view(
@@ -59,7 +61,7 @@ class AdminRecetaController extends Controller
      * @param  \App\Models\Receta  $recetas
      * @return \Illuminate\Http\Response
      */
-    public function show(Receta $recetas)
+    public function show(Receta $receta)
     {
         //
     }
@@ -72,7 +74,11 @@ class AdminRecetaController extends Controller
      */
     public function edit(Receta $receta)
     {
-        return view('admin.recetas.edit', ['receta' => $receta]);
+        return view('admin.recetas.edit', [
+            'receta' => $receta, 
+            'categoriasReceta' => Categoria::all()->where('type', Receta::class),
+            'etiquetas' => Etiqueta::all()
+        ]);
     }
 
     /**
@@ -82,12 +88,17 @@ class AdminRecetaController extends Controller
      * @param  \App\Models\Receta  $recetas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Receta $recetas)
+    public function update(Request $request, Receta $receta)
     {
-        if (isset($request->borrar_fotos))
-        {
-            foreach($request->borrar_fotos as $foto_id)
-            {
+        $validated = $request->validate([
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'raciones' => ['required', 'numeric'],
+            'imagenes_subidas.*' => 'image'
+        ]);
+
+        if (isset($request->borrar_fotos)) {
+            foreach ($request->borrar_fotos as $foto_id) {
                 $foto = Foto::find($foto_id);
                 // TODO 
                 // Descubrir como almacena las fotos para luego aplicar el siguiente código para eliminar
@@ -95,33 +106,18 @@ class AdminRecetaController extends Controller
                 $foto->delete();
             }
         }
-        //ddd($request);
-        /*         $this->validate($request, [
-            'name' => 'required',
-            'imagenes_subidas'=>'required',
-        ]);
- */
-ddd($request);
+
+        $receta->update($request->all());
+
+        // Las validaciones se realizan en \App\Http\Requests\StoreRecetaRequest
+
+        // Si la receta tiene fotos las guardamos y recuperamos las urls
         if ($request->hasFile('imagenes_subidas')) {
-            $allowedfileExtension = ['pdf', 'jpeg', 'jpg', 'png', 'docx'];
-            $files = $request->file('imagenes_subidas');
-            foreach ($files as $file) {
-                $filename = $file->getClientOriginalName();
-                $extension = $file->getClientOriginalExtension();
-                $check = in_array($extension, $allowedfileExtension);
-                ddd($check, $filename, $extension);
-/*                 if ($check) {
-                    $items = Item::create($request->all());
-                    foreach ($request->imagenes_subidas as $photo) {
-                        $filename = $photo->store('imagenes_subidas');
-                        ItemDetail::create([
-                            'item_id' => $items->id,
-                            'filename' => $filename
-                        ]);
-                    }
-                } */
-            }
+            $imagenesReceta = $request->file('imagenes_subidas');
+            $urlFotosReceta = $this->guardarImagenes($imagenesReceta);
         }
+
+        return back()->with('success', 'La receta se ha actualizado sin ningún problema!!.');
     }
 
     /**
@@ -135,5 +131,45 @@ ddd($request);
         $receta->delete();
 
         return redirect()->route('admin.recetas.index')->with('succes', 'Receta eliminada!!');
+    }
+
+    /**
+     * Método para subir y almacenar las imágenes
+     * 
+     * @param object $imagenes La colección de imágenes cargadas por el usuario
+     */
+    protected function guardarImagenes($imagenes)
+    {
+        // Variable para almacenar las urls de los ficheros guardados
+        $urls = array();
+
+        // Almacenamos cada una de las imágenes guardadas
+        foreach ($imagenes as $imagen) {
+            $urls[] = $this->guardarImagen($imagen);
+        }
+
+        // Devolvemos las urls para guardar en la bbdd
+        return $urls;
+    }
+
+    /**
+     * Método para almacenar una sola imagen
+     * 
+     * @param object $imagen    La imagen cargada por el usuario
+     */
+    protected function guardarImagen($imagen)
+    {
+        // Creamos un array para controlar las extensiones permitidas
+        $extensionesPermitidas = ['pdf', 'jpeg', 'jpg', 'png', 'docx'];
+
+        $extension = $imagen->getClientOriginalExtension();
+        $valida = in_array($extension, $extensionesPermitidas);
+
+        // Si el tipo de fichero está permitido guardar la imagen
+        if ($valida) {
+            $urlFichero = $imagen->store('recetas');
+        }
+
+        return $urlFichero;
     }
 }

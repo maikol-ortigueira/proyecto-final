@@ -13,6 +13,11 @@ class StoreRecetaRequest extends FormRequest
      */
     public function authorize()
     {
+        if (auth()->user()->isAdmin())
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -24,7 +29,10 @@ class StoreRecetaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nombre' => 'required',
+            'descripcion' => 'required',
+            'raciones' => 'required, numeric',
+            'imagenes_subidas.*' => 'image'
         ];
     }
 }
