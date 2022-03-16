@@ -1,22 +1,28 @@
 @props(['paso', 'orden'])
 <div>
   {{-- Paso --}}
-  <div class="grid grid-cols-6">
+  <div class="grid grid-cols-12 gap-10">
     {{-- Campo nombre --}}
     <div class="col-span-3 flex flex-col">
-      <label for="nombre" class="capitalize">{{ __('name') }}<span class="ml-1">(*)</span></label>
+      <label for="pasos_{{ $orden }}_nombre" class="capitalize">Nombre<span class="ml-1">(*)</span></label>
       <input type="text"
         class="@error('nombre') border-red-300 @else border-gray-300 @enderror mt-2 rounded-md border py-2 px-4"
-        name="nombre" id="nombre" value="{{ old('nombre', $paso->nombre) }}">
+        name="pasos[{{ $orden }}][nombre]" id="pasos_{{ $orden }}_nombre" value="{{ old('nombre', $paso->nombre) }}">
       {{-- Captura el error si existe --}}
-      @error('raciones')
+      @error('nombre')
         <span class="text-xs text-red-500">{{ $message }}</span>
       @enderror
     </div>
-  </div>
-  {{-- Editor de texto --}}
-  <div class="mt-10">
-    <div id="editor" class="h-48 min-h-0 bg-white">{!! old('descripcion', $paso->descripcion) !!}</div>
+    <div class="col-span-6 flex flex-col">
+        <label for="pasos_{{ $orden }}_descripcion">Descripción<span class="ml-1">(*)</span></label>
+        <textarea name="pasos[{{ $orden }}][descripcion]" id="pasos_{{ $orden }}_descripcion" class="border-gray-300  mt-2 rounded-md border py-2 px-4" cols="30" rows="10">
+            {!! old('descripcion', $paso->descripcion) !!}
+        </textarea>
+    </div>
+    <div class="col-span-3 flex flex-col">
+        <label for="pasos_{{ $orden }}_fotos">Fotos<span class="ml-1">(*)</span></label>
+        <input type="file" name="pasos[{{ $orden }}][fotos][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_{{ $orden }}_pasos">
+    </div>
   </div>
   {{-- imagenes --}}
   <div class="my-10 grid grid-cols-4">
@@ -30,7 +36,4 @@
       </div>
     @endforeach
   </div>
-  {{-- subida de nuevas imágenes --}}
-  <x-forms.label name="fotos[paso-{{ $orden }}]" label="add photos" field="fotos" />
-  <x-forms.drag-and-drop-file name="fotos" />
 </div>

@@ -83,4 +83,12 @@ class IngredienteController extends Controller
     {
         //
     }
+
+    /**
+     * Método para mostrar todos los ingredientes a través del API
+     */
+    public function apiIngredientes ()
+    {
+        return(Ingrediente::all());
+    }
 }

@@ -11,13 +11,12 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
-        {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
-        {{-- <link rel="stylesheet" href="http://tailwindcss.com"> --}}
-        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://cdn.filesizejs.com/filesize.min.js"></script>
-        <!-- Scripts -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @stack('head')
         <script src="{{ asset('js/app.js') }}" defer></script>
+         <script src="https://cdn.tailwindcss.com"></script>
+         <script src="https://cdn.filesizejs.com/filesize.min.js"></script>
+        <!-- Scripts -->
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -35,5 +34,6 @@
                 {{ $slot }}
             </main>
         </div>
+        @stack('bottom')
     </body>
 </html>

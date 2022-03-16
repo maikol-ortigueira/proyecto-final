@@ -22,7 +22,7 @@ class Receta extends Model
      */
     public function ingredientes()
     {
-        return $this->belongsToMany(Ingrediente::class);
+        return $this->belongsToMany(Ingrediente::class)->withPivot('cantidad')->withPivot('unidad_id')->withTimestamps();
     }
 
     /**

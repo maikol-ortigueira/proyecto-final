@@ -1,6 +1,6 @@
-@props(['name' => 'ficheros'])
+@props(['name' => 'ficheros', 'id'])
 <div class="flex flex-col flex-grow mb-3">
-  <div x-data="{ files: null }" id="FileUpload"
+  <div x-data="{ files: null }" id="upload_{{ $id }}"
       class="block w-full py-2 px-3 relative bg-white appearance-none border-2 border-dashed border-gray-300 rounded-md hover:shadow-outline-gray">
       <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48"
           aria-hidden="true">

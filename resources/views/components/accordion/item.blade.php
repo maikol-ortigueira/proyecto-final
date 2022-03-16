@@ -1,11 +1,13 @@
-@props(['order'])
+@props(['order', 'titulo'])
+{{-- Genera cada uno de los items del acordeon --}}
 <li class="relative border-b border-gray-200">
   <button type="button" class="w-full px-8 py-6 text-left"
-    x-on="selected !== {{ $order }} ? selected = {{ $order }} : selected = null">
+    x-on:click="selected !== {{ $order }} ? selected = {{ $order }} : selected = null">
     <div class="flex items-center justify-between">
-      <span>
-        Should I use reCAPTCHA v2 or v3? </span>
-      <span class="ico-plus"></span>
+      <span class="text-3xl font-bold text-primary-600">
+        {{ $titulo }}
+      </span>
+      <x-svgs.chevron-down />
     </div>
   </button>
   <div class="relative max-h-0 overflow-hidden transition-all duration-700" style="" x-ref="container{{ $order }}"

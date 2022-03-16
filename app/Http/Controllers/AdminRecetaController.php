@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\Etiqueta;
 use App\Models\Foto;
+use App\Models\Paso;
 use App\Models\Receta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -75,7 +76,7 @@ class AdminRecetaController extends Controller
     public function edit(Receta $receta)
     {
         return view('admin.recetas.edit', [
-            'receta' => $receta, 
+            'receta' => $receta,
             'categoriasReceta' => Categoria::all()->where('type', Receta::class),
             'etiquetas' => Etiqueta::all()
         ]);
@@ -90,11 +91,24 @@ class AdminRecetaController extends Controller
      */
     public function update(Request $request, Receta $receta)
     {
-        $validated = $request->validate([
+        
+        $recetaValida = $this->validate($request, [
             'nombre' => 'required',
-            'descripcion' => 'required',
             'raciones' => ['required', 'numeric'],
-            'imagenes_subidas.*' => 'image'
+            'descripcion' => 'required',
+            'categoria' => 'required',
+            'imagenes_subidas.*' => 'image',
+        ]);
+        
+        $pasos = $this->validate($request, [
+            'pasos.*.nombre' => 'required',
+            'pasos.*.descripcion' => 'required'
+        ]);
+        
+        $ingredientes = $this->validate($request, [
+            'ingredientes.*.ingrediente' => 'required',
+            'ingredientes.*.cantidad' => ['required', 'numeric'],
+            'ingredientes.*.unidad' => 'required',
         ]);
 
         if (isset($request->borrar_fotos)) {
@@ -107,7 +121,35 @@ class AdminRecetaController extends Controller
             }
         }
 
-        $receta->update($request->all());
+        
+        
+        $receta->update($recetaValida);
+        $i = 0;
+        $pasos = collect($request->input('pasos', []))
+            ->map(function ($paso) use ($i) {
+                $i++;
+                return ['orden' => $i];
+            });
+        $receta->pasos()->delete();
+ 
+/*         $i = 1;
+        foreach($pasos as $paso)
+        {
+            $paso['orden'] = $i;
+            $p = new Paso($paso);
+            $receta->pasos()->save($p);
+
+            $i++;
+        } */
+
+        $receta->pasos()->save($pasos);
+
+        $ingredientes = collect($request->input('ingredientes', []))
+            ->map(function($ingrediente){
+                return ['cantidad' => $ingrediente['cantidad'], 'unidad_id' => $ingrediente['unidad']];
+        });
+
+        $receta->ingredientes()->sync($ingredientes);
 
         // Las validaciones se realizan en \App\Http\Requests\StoreRecetaRequest
 

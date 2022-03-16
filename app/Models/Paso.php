@@ -9,6 +9,7 @@ class Paso extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre', 'descripcion', 'orden'];
 
     /**
      * El paso pertenece a una receta

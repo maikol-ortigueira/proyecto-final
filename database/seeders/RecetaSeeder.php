@@ -11,6 +11,7 @@ use App\Models\Rol;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class RecetaSeeder extends Seeder
 {
@@ -38,8 +39,19 @@ class RecetaSeeder extends Seeder
                 ])->create()[0];
                 
                 // Añadir los ingredientes
-                $ingredientes = Arr::random(Ingrediente::all()->pluck('id')->all(), rand(3,7));
-                $receta->ingredientes()->sync($ingredientes);
+                $ingredientes = DB::table('ingredientes')->get()->random(rand(3,7));
+                //$ingredientes = Arr::random(Ingrediente::all(), rand(3,7));
+                $ings = array();
+                $i = 0;
+                foreach($ingredientes as $ingrediente)
+                {
+                    $ings[$i]['ingrediente_id'] = $ingrediente->id;
+                    $ings[$i]['unidad_id'] = $ingrediente->unidad_id;
+                    $ings[$i]['cantidad'] = rand(1,50);
+
+                    $i++;
+                }
+                $receta->ingredientes()->sync($ings);
 
                 // Añadir etiquetas
                 $etiquetas = Arr::random(Etiqueta::all()->pluck('id')->all(), rand(1,4));

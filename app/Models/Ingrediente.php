@@ -16,7 +16,7 @@ class Ingrediente extends Model
      */
     public function recetas ()
     {
-        return $this->belongsToMany(Receta::class);
+        return $this->belongsToMany(Receta::class)->withPivot('cantidad')->withPivot('unidad_id')->withTimestamps();
     }
 
     /**
