@@ -21,7 +21,7 @@
     </div>
     <div class="col-span-3 flex flex-col">
         <label for="pasos_{{ $orden }}_fotos">Fotos<span class="ml-1">(*)</span></label>
-        <input type="file" name="pasos[{{ $orden }}][fotos][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_{{ $orden }}_pasos">
+        <input type="file" multiple name="pasos[{{ $orden }}][fotos][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_{{ $orden }}_pasos">
     </div>
   </div>
   {{-- imagenes --}}

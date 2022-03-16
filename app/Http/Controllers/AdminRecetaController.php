@@ -91,7 +91,7 @@ class AdminRecetaController extends Controller
      */
     public function update(Request $request, Receta $receta)
     {
-        
+
         $recetaValida = $this->validate($request, [
             'nombre' => 'required',
             'raciones' => ['required', 'numeric'],
@@ -99,64 +99,79 @@ class AdminRecetaController extends Controller
             'categoria' => 'required',
             'imagenes_subidas.*' => 'image',
         ]);
-        
+
         $pasos = $this->validate($request, [
             'pasos.*.nombre' => 'required',
             'pasos.*.descripcion' => 'required'
         ]);
-        
+
         $ingredientes = $this->validate($request, [
             'ingredientes.*.ingrediente' => 'required',
             'ingredientes.*.cantidad' => ['required', 'numeric'],
             'ingredientes.*.unidad' => 'required',
         ]);
 
+        // Elimnar fotos receta si lo solicita el usuario
         if (isset($request->borrar_fotos)) {
             foreach ($request->borrar_fotos as $foto_id) {
                 $foto = Foto::find($foto_id);
-                // TODO 
-                // Descubrir como almacena las fotos para luego aplicar el siguiente código para eliminar
-                /* Storage::delete($foto->url); */
+
+                // Eliminar la foto del sistema de archivos
+                Storage::delete('public/recetas/' . $foto->url);
+
+                // Eliminar el registro con la foto
                 $foto->delete();
             }
         }
 
-        
-        
         $receta->update($recetaValida);
-        $i = 0;
-        $pasos = collect($request->input('pasos', []))
-            ->map(function ($paso) use ($i) {
-                $i++;
-                return ['orden' => $i];
-            });
+        $pasos = collect($request->input('pasos', []));
         $receta->pasos()->delete();
- 
-/*         $i = 1;
-        foreach($pasos as $paso)
-        {
-            $paso['orden'] = $i;
+
+        $i = 0;
+        foreach ($pasos as $orden => $paso) {
+            $paso['orden'] = $orden;
             $p = new Paso($paso);
             $receta->pasos()->save($p);
 
             $i++;
-        } */
-
-        $receta->pasos()->save($pasos);
+        }
 
         $ingredientes = collect($request->input('ingredientes', []))
-            ->map(function($ingrediente){
+            ->map(function ($ingrediente) {
                 return ['cantidad' => $ingrediente['cantidad'], 'unidad_id' => $ingrediente['unidad']];
-        });
+            });
 
         $receta->ingredientes()->sync($ingredientes);
 
-        // Las validaciones se realizan en \App\Http\Requests\StoreRecetaRequest
 
         // Si la receta tiene fotos las guardamos y recuperamos las urls
-        if ($request->hasFile('imagenes_subidas')) {
-            $imagenesReceta = $request->file('imagenes_subidas');
-            $urlFotosReceta = $this->guardarImagenes($imagenesReceta);
+        if ($request->hasFile('fotos')) {
+            $imagenesReceta = $request->file('fotos');
+            $urlsFotosReceta = $this->guardarImagenes($imagenesReceta, 'recetas');
+
+            foreach ($urlsFotosReceta as $url) {
+                $receta->fotos()->create($url);
+            }
+        }
+
+        // Si los paso tienen fotos las guardamos y recuperamos las urls
+        if (!is_null($request->file('pasos')) && is_array($request->file('pasos')) && count($request->file('pasos')) > 0)
+        {
+            foreach ($request->file('pasos') as $key => $value) {
+                # code...
+                if ($request->hasFile('pasos')) {
+                    $pasosfotos = $request->file('pasos');
+                    
+                    foreach ($pasosfotos as $orden => $pasofotos) {
+                        $urls = $this->guardarImagenes($pasofotos, 'pasos');
+                        $paso = Paso::where('orden', '=', $orden);
+                        foreach ($urls as $url) {
+                            $paso->fotos()->create($url);
+                        }
+                    }
+                }
+            }
         }
 
         return back()->with('success', 'La receta se ha actualizado sin ningún problema!!.');
@@ -179,15 +194,16 @@ class AdminRecetaController extends Controller
      * Método para subir y almacenar las imágenes
      * 
      * @param object $imagenes La colección de imágenes cargadas por el usuario
+     * @param string $carpeta Carpeta de destino de las fotos
      */
-    protected function guardarImagenes($imagenes)
+    protected function guardarImagenes($imagenes, $carpeta)
     {
         // Variable para almacenar las urls de los ficheros guardados
         $urls = array();
 
         // Almacenamos cada una de las imágenes guardadas
         foreach ($imagenes as $imagen) {
-            $urls[] = $this->guardarImagen($imagen);
+            $urls[]['url'] = $this->guardarImagen($imagen, $carpeta);
         }
 
         // Devolvemos las urls para guardar en la bbdd
@@ -198,8 +214,9 @@ class AdminRecetaController extends Controller
      * Método para almacenar una sola imagen
      * 
      * @param object $imagen    La imagen cargada por el usuario
+     * @param string $carpeta Carpeta de destino de las imagenes
      */
-    protected function guardarImagen($imagen)
+    protected function guardarImagen($imagen, $carpeta)
     {
         // Creamos un array para controlar las extensiones permitidas
         $extensionesPermitidas = ['pdf', 'jpeg', 'jpg', 'png', 'docx'];
@@ -209,9 +226,9 @@ class AdminRecetaController extends Controller
 
         // Si el tipo de fichero está permitido guardar la imagen
         if ($valida) {
-            $urlFichero = $imagen->store('recetas');
+            $urlFichero = $imagen->store('public/' . $carpeta);
         }
 
-        return $urlFichero;
+        return $imagen->hashName();
     }
 }

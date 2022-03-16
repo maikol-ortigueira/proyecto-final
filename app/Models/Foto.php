@@ -9,6 +9,8 @@ class Foto extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['url'];
+
     public function paso ()
     {
         return $this->belongsTo(Paso::class);
