@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\IngredienteController;
-use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\RecetaController;
 use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +25,5 @@ Route::get('ingredientes', [IngredienteController::class, 'apiIngredientes']);
 Route::get('unidades', function () {
     return (Unidad::all());
 });
+
+Route::get('recetas', [RecetaController::class, 'apiRecetas']);

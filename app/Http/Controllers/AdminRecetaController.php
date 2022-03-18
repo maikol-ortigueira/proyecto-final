@@ -9,7 +9,6 @@ use App\Models\Etiqueta;
 use App\Models\Foto;
 use App\Models\Paso;
 use App\Models\Receta;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminRecetaController extends Controller
@@ -109,17 +108,6 @@ class AdminRecetaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Receta  $recetas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Receta $receta)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Receta  $recetas
@@ -151,7 +139,7 @@ class AdminRecetaController extends Controller
                 $foto = Foto::find($foto_id);
 
                 // Eliminar la foto del sistema de archivos
-                Storage::delete('public/recetas/' . $foto->url);
+                Storage::delete('public/' . $foto->url);
 
                 // Eliminar el registro con la foto
                 $foto->delete();
@@ -270,7 +258,7 @@ class AdminRecetaController extends Controller
         // Si el tipo de fichero está permitido guardar la imagen
         if ($valida) {
 
-            $urlFichero = $imagen->store('public/' . $carpeta);
+            $urlFichero = $imagen->store('public/');
         }
 
         return $imagen->hashName();

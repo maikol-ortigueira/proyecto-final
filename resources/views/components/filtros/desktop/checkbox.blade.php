@@ -1,8 +1,9 @@
-@props(['item', 'checked'])
+@props(['item', 'checked', 'form'])
 <div class="flex items-center">
   <input 
     id="filter-size-5"
-    name="{{ $item->getTable() }}[]"
+    x-on:change="buscarDeForm()"
+    name="{{ $form }}[]"
     value="{{ $item->id }}"
     type="checkbox"
     {{ $checked ?? '' ? ' checked' : '' }}

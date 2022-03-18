@@ -30,7 +30,7 @@
     @foreach ($paso->fotos as $foto)
       <div id="contenedor-imagen-{{ $foto->id }}">
         <div class="relative mx-auto h-64 w-64">
-          <img src="{{ asset('storage/pasos/' . $foto->url) }}" class="h-64 w-full">
+          <img src="{{ asset('storage/' . $foto->url) }}" class="h-64 w-full">
           <x-svgs.close-simbol class="absolute top-1 right-1 h-10 w-10 cursor-pointer rounded-3xl bg-white p-2"
             x-on:click="borraImagen({{ $foto->id }})" />
         </div>

@@ -771,5 +771,7 @@
     "State": "Provincia",
     "Phone number": "Teléfono",
     "Zip Code": "Código Postal",
-    "profile": "perfil"
+    "profile": "perfil",
+    "by": "por",
+    "preparation": "preparación"
 }

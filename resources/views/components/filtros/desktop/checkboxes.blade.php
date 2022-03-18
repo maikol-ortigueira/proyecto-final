@@ -1,4 +1,4 @@
-@props(['items'])
+@props(['items', 'form'])
 <div x-data="{ open: false }" class="border-b border-gray-200 py-6">
   <h3 class="-my-3 flow-root">
     <button type="button" x-description="Expand/collapse section button"
@@ -20,7 +20,7 @@
     <div class="space-y-4">
       {{-- Añadir los checkboxes --}}
       @foreach ($items as $item)
-        <x-filtros.desktop.checkbox :item="$item" />
+        <x-filtros.desktop.checkbox :item="$item" :form="$form" />
       @endforeach
     </div>
   </div>

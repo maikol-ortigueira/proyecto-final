@@ -28,6 +28,21 @@ class RecetaController extends Controller
         );
     }
 
+    public function apiRecetas()
+    {
+        return (
+            [
+                'recetas' => Receta::latest()
+                    ->conFiltros(request([
+                        'tag',
+                        'categoria',
+                        'autor'
+                    ]))
+                    ->paginate(10)
+            ]
+        ); 
+    }
+
     /**
      * Display the specified resource.
      *
@@ -36,6 +51,8 @@ class RecetaController extends Controller
      */
     public function show(Receta $receta)
     {
-        return view('recetas.show', ['receta' => $receta]);
+        $ingredientes = $receta->ingredientes();
+
+        return view('recetas.show', ['receta' => $receta, 'ingredientes' => $ingredientes]);
     }
 }

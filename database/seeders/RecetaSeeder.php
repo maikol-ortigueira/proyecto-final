@@ -36,7 +36,7 @@ class RecetaSeeder extends Seeder
                 // Crear una receta
                 $receta = Receta::factory(1)->state([
                     'user_id' => $userId,
-                ])->create()[0];
+                ])->hasFotos(rand(2,5))->create()[0];
                 
                 // Añadir los ingredientes
                 $ingredientes = DB::table('ingredientes')->get()->random(rand(3,7));
@@ -67,17 +67,17 @@ class RecetaSeeder extends Seeder
 
                 // Añadir los pasos
                 for ($j=0; $j < rand(1,3); $j++) { 
-                    $pasoId = Paso::factory(1)->state([
+                    $pasoId = Paso::factory(1)->hasFotos(rand(1,5))->state([
                         'orden' => $j+1,
                         'receta_id' => $receta->id
                         ]
                     )->create()[0]->id;
                     
                     // Añadir las fotos del paso
-                    Foto::factory(rand(1,3))->state([
+/*                     Foto::factory(rand(1,3))->state([
                         'modelo_type' => Paso::class,
                         'modelo_id' => $pasoId
-                    ])->create();
+                    ])->create(); */
 
                 }
             }

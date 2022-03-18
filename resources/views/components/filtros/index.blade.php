@@ -54,9 +54,9 @@
 
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
           <!-- Filtros -->
-          <form class="hidden lg:block" method="post" action="#">
-            <x-filtros.desktop.checkboxes :items="$etiquetas" />
-            <x-filtros.desktop.checkboxes :items="$categorias" />
+          <form class="hidden lg:block" method="post" action="#" id="filtrosForm">
+            <x-filtros.desktop.checkboxes :items="$tag" form="tag" />
+            <x-filtros.desktop.checkboxes :items="$categoria" form="categoria" />
             <div class="text-right mt-6">
               <x-button.index value="Search" type="button" size="small" x-on:click="getRecetas()" />
             </div>

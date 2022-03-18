@@ -30,6 +30,6 @@ class Index extends Component
         $etiquetas->name = 'tags';
         $categorias = Categoria::all()->where('type', Receta::class);
         $categorias->name = 'categories';
-        return view('components.filtros.index', ['etiquetas' => $etiquetas, 'categorias' => $categorias]);
+        return view('components.filtros.index', ['tag' => $etiquetas, 'categoria' => $categorias]);
     }
 }

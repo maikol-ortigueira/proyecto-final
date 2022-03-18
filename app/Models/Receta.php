@@ -13,7 +13,7 @@ class Receta extends Model
     protected $fillable = ['nombre', 'descripcion', 'raciones'];
 
     // Queremos que siempre cargue pasos, fotos, autor, categoría y etiquetas con cada receta
-    protected $with = ['pasos', 'fotos', 'categoria', 'autor', 'etiquetas', 'ingredientes'];
+    protected $with = ['pasos', 'fotos', 'categoria', 'autor', 'etiquetas'];
 
     /**
      * Relación con la tabla ingredientes
@@ -78,14 +78,15 @@ class Receta extends Model
         // Filtro por etiquetas
         $query->when($filtros['tag'] ?? false, function ($query, $etiqueta) {
             $query->whereHas('etiquetas', function (Builder $query) use ($etiqueta) {
-                $query->where('id', $etiqueta);
+                $query->whereIn('id', $etiqueta);
             });
         });
 
         // Filtro por categoría
         $query->when($filtros['categoria'] ?? false, function ($query, $categoria) {
             $query->whereHas('categoria', function (Builder $query) use ($categoria) {
-                $query->where('id', $categoria);
+                
+                $query->whereIn('id', $categoria);
             });
         });
 

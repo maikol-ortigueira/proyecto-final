@@ -25,5 +25,6 @@
             {{ $slot }}
         </div>
         <x-section.site-footer />
+        @stack('bottom')
     </body>
 </html>
