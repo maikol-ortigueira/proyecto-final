@@ -15,7 +15,7 @@ class EtiquetaController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.etiquetas.index', ['etiquetas' => Etiqueta::latest()->paginate(10)]);
     }
 
     /**
@@ -25,7 +25,7 @@ class EtiquetaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.etiquetas.new');
     }
 
     /**
@@ -36,18 +36,10 @@ class EtiquetaController extends Controller
      */
     public function store(StoreEtiquetaRequest $request)
     {
-        //
-    }
+        // Las validaciones se realizan en \App\Http\Requests\StoreEtiquetaRequest
+        Etiqueta::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Etiqueta  $etiqueta
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Etiqueta $etiqueta)
-    {
-        //
+        return redirect()->route('admin.etiquetas.index')->with('success', 'La etiqueta se ha generado con éxito!!');
     }
 
     /**
@@ -58,7 +50,7 @@ class EtiquetaController extends Controller
      */
     public function edit(Etiqueta $etiqueta)
     {
-        //
+        return view('admin.etiquetas.edit', ['etiqueta' => $etiqueta]);
     }
 
     /**
@@ -70,7 +62,10 @@ class EtiquetaController extends Controller
      */
     public function update(UpdateEtiquetaRequest $request, Etiqueta $etiqueta)
     {
-        //
+        // Las validaciones se realizan en \App\Http\Requests\UpdateEtiquetaRequest
+        $etiqueta->update($request->all());
+
+        return redirect()->route('admin.etiquetas.index')->with('success', 'La etiqueta se ha actualizado con éxito!!');
     }
 
     /**
@@ -81,6 +76,8 @@ class EtiquetaController extends Controller
      */
     public function destroy(Etiqueta $etiqueta)
     {
-        //
+        $etiqueta->delete();
+
+        return redirect()->route('admin.etiquetas.index')->with('success', 'Se ha eliminado la etiqueta!!');
     }
 }

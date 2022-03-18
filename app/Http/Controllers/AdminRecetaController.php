@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRecetaRequest;
+use App\Http\Requests\UpdateRecetaRequest;
 use App\Models\Categoria;
 use App\Models\Etiqueta;
 use App\Models\Foto;
@@ -14,8 +16,10 @@ class AdminRecetaController extends Controller
 {
     public function __construct()
     {
+        // Solo un usuario administrador puede acceder a las recetas en el backend
         $this->middleware(['auth', 'isadmin']);
-        $this->middleware('esautor')->except('index');
+        // Limitar permisos de edición o actualización al autor y al superadministrador
+        $this->middleware('esautor')->except(['index', 'create', 'store']);
     }
     /**
      * Display a listing of the resource.
@@ -42,18 +46,66 @@ class AdminRecetaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.recetas.new');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreRecetaRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRecetaRequest $request)
     {
-        //
+        // Las validaciones se realizan en App\Http\Requests\StoreRecetaRequest
+        //ddd($request->receta);
+        $receta = new Receta;
+        $receta->categoria()->associate($request->categoria);
+        $receta->user_id = auth()->user()->id;
+        $receta->nombre = $request->nombre;
+        $receta->descripcion = $request->descripcion;
+        $receta->raciones = $request->raciones;
+
+        $receta->save();
+
+        // Si la receta tiene fotos las guardamos y recuperamos las urls
+        if (!is_null($request->file('fotos')) && is_array($request->file('fotos')) && count($request->file('fotos')) > 0) {
+
+            $imagenesReceta = $request->file('fotos');
+            $urlsFotosReceta = $this->guardarImagenes($imagenesReceta, 'recetas');
+
+            foreach ($urlsFotosReceta as $url) {
+                $receta->fotos()->create($url);
+            }
+        }
+
+        // Guardar las etiquetas, si las hay
+        if (isset($request->etiquetas)) {
+            $receta->etiquetas()->attach($request->etiquetas);
+        }
+
+        // Guardar los ingredientes, si los hay
+        if (isset($request->ingredientes)) {
+            $receta->ingredientes()->attach([...$request->ingredientes]);
+        }
+
+        // Guardar los pasos, si existen
+        if (isset($request->pasos)) {
+            foreach ($request->pasos as $paso) {
+                $pasoModel = $receta->pasos()->create($paso);
+
+                // Si el paso tiene imágenes es el momento de guardarlas
+                if (is_array($request->file('pasos.' . $paso['orden'])) && count($request->file('pasos.' . $paso['orden'])) > 0) {
+                    $fotos = $request->file('pasos.' . $paso['orden']);
+                    $urls = $this->guardarImagenes($fotos, 'pasos');
+                    foreach ($urls as $url) {
+                        $pasoModel->fotos()->create($url);
+                    }
+                }
+            }
+        }
+
+        return redirect()->route('admin.recetas.index')->with('success', 'La receta se ha guardado con éxito!!');
     }
 
     /**
@@ -85,33 +137,15 @@ class AdminRecetaController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateRecetaRequest  $request
      * @param  \App\Models\Receta  $recetas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Receta $receta)
+    public function update(UpdateRecetaRequest $request, Receta $receta)
     {
+        // Las validaciones se realizan en App\Http\Requests\UpdateRecetaRequest;
 
-        $recetaValida = $this->validate($request, [
-            'nombre' => 'required',
-            'raciones' => ['required', 'numeric'],
-            'descripcion' => 'required',
-            'categoria' => 'required',
-            'imagenes_subidas.*' => 'image',
-        ]);
-
-        $pasos = $this->validate($request, [
-            'pasos.*.nombre' => 'required',
-            'pasos.*.descripcion' => 'required'
-        ]);
-
-        $ingredientes = $this->validate($request, [
-            'ingredientes.*.ingrediente' => 'required',
-            'ingredientes.*.cantidad' => ['required', 'numeric'],
-            'ingredientes.*.unidad' => 'required',
-        ]);
-
-        // Elimnar fotos receta si lo solicita el usuario
+        // Elimnar fotos de receta si lo solicita el usuario
         if (isset($request->borrar_fotos)) {
             foreach ($request->borrar_fotos as $foto_id) {
                 $foto = Foto::find($foto_id);
@@ -124,29 +158,14 @@ class AdminRecetaController extends Controller
             }
         }
 
-        $receta->update($recetaValida);
-        $pasos = collect($request->input('pasos', []));
-        $receta->pasos()->delete();
-
-        $i = 0;
-        foreach ($pasos as $orden => $paso) {
-            $paso['orden'] = $orden;
-            $p = new Paso($paso);
-            $receta->pasos()->save($p);
-
-            $i++;
-        }
-
-        $ingredientes = collect($request->input('ingredientes', []))
-            ->map(function ($ingrediente) {
-                return ['cantidad' => $ingrediente['cantidad'], 'unidad_id' => $ingrediente['unidad']];
-            });
-
-        $receta->ingredientes()->sync($ingredientes);
-
+        // Guardar la receta
+        // Debemos primero asociar la categoría a la receta
+        $receta->categoria()->associate($request->categoria);
+        $receta->update($request->all());
 
         // Si la receta tiene fotos las guardamos y recuperamos las urls
-        if ($request->hasFile('fotos')) {
+        if (!is_null($request->file('fotos')) && is_array($request->file('fotos')) && count($request->file('fotos')) > 0) {
+
             $imagenesReceta = $request->file('fotos');
             $urlsFotosReceta = $this->guardarImagenes($imagenesReceta, 'recetas');
 
@@ -155,25 +174,45 @@ class AdminRecetaController extends Controller
             }
         }
 
-        // Si los paso tienen fotos las guardamos y recuperamos las urls
-        if (!is_null($request->file('pasos')) && is_array($request->file('pasos')) && count($request->file('pasos')) > 0)
-        {
-            foreach ($request->file('pasos') as $key => $value) {
-                # code...
-                if ($request->hasFile('pasos')) {
-                    $pasosfotos = $request->file('pasos');
-                    
-                    foreach ($pasosfotos as $orden => $pasofotos) {
-                        $urls = $this->guardarImagenes($pasofotos, 'pasos');
-                        $paso = Paso::where('orden', '=', $orden);
-                        foreach ($urls as $url) {
-                            $paso->fotos()->create($url);
-                        }
+        // Guardar los pasos de la receta
+        // Primero comprobamos que existen pasos
+        if (isset($request->pasos) && !empty($request->pasos)) {
+
+            foreach ($request->pasos as $orden => $paso) {
+                $paso['orden'] = $orden;
+                if ((int) $paso['id'] === 0) {
+                    $pasoModel = $receta->pasos()->create($paso);
+                } else {
+                    $pasoModel = Paso::find($paso['id']);
+                    $pasoModel->update($paso);
+                }
+
+                // Si el paso tiene imágenes es el momento de guardarlas
+                if (is_array($request->file('pasos.' . $orden)) && count($request->file('pasos.' . $orden)) > 0) {
+                    $fotos = $request->file('pasos.' . $orden);
+                    $urls = $this->guardarImagenes($fotos, 'pasos');
+                    foreach ($urls as $url) {
+                        $pasoModel->fotos()->create($url);
                     }
                 }
             }
         }
 
+        // Guardar los ingredientes
+        // El id del ingrediente y la receta ya se guarda automáticamente
+        // pero debemos añadir la cantidad y el tipo de unidad a la relación
+        $ingredientes = collect($request->input('ingredientes', []))
+            ->map(function ($ingrediente) {
+                return [
+                    'cantidad' => $ingrediente['cantidad'],
+                    'ingrediente_id' => $ingrediente['ingrediente'],
+                    'unidad_id' => $ingrediente['unidad']
+                ];
+            });
+
+        $receta->ingredientes()->sync($ingredientes);
+
+        //  Todo ok.
         return back()->with('success', 'La receta se ha actualizado sin ningún problema!!.');
     }
 
@@ -224,8 +263,13 @@ class AdminRecetaController extends Controller
         $extension = $imagen->getClientOriginalExtension();
         $valida = in_array($extension, $extensionesPermitidas);
 
+        if (!$imagen->isValid()) {
+            throw new \Exception('Error al subir la imagen: ' . $imagen->getErrorMessage());
+        }
+
         // Si el tipo de fichero está permitido guardar la imagen
         if ($valida) {
+
             $urlFichero = $imagen->store('public/' . $carpeta);
         }
 

@@ -11,6 +11,8 @@ class Unidad extends Model
 
     protected $table = 'unidades';
 
+    protected $fillable = ['nombre'];
+
     /**
      * Una unidad puede tener una categoría
      *

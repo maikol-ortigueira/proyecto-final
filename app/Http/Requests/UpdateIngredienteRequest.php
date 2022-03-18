@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Ingrediente;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateIngredienteRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpdateIngredienteRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,8 @@ class UpdateIngredienteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nombre' => 'required|unique:ingredientes,nombre,' . $this->ingrediente->id, // Iganoramos este elemento en la validación
+            'unidad_id' => 'required'
         ];
     }
 }

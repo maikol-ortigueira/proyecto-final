@@ -43,20 +43,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['roles'];
+    protected $with = ['roles', 'perfil'];
 
     /**
      * Un usuario puede tener varios roles
      */
     public function roles()
     {
-        return $this->belongsToMany(Rol::class);
+        return $this->belongsToMany(Rol::class)->using(RolUser::class);
     }
 
     /**
      * Un usuario tiene un perfil
      *
-     * @return void
      */
     public function perfil()
     {

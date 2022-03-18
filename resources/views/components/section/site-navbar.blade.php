@@ -50,9 +50,14 @@
                 <div class="border-primary-100 absolute left-0 mt-4 w-48 rounded border bg-white pt-2 pb-4">
                   @auth
                     @if (auth()->user()->isAdmin())
-                      <a href="{{ url('/admin') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:text-primary-100 hover:bg-primary-300 focus:outline-none focus:bg-primary-300 transition duration-150 ease-in-out">{{ __('Dashboard') }}</a>
+                      <x-dropdown-link :href="route('admin.recetas.index')">
+                        {{ __('Dashboard') }}
+                      </x-dropdown-link>
                     @endif
                   @endauth
+                  <x-dropdown-link :href="route('perfil.editar', auth()->user())" class="capitalize">
+                    {{ __('profile') }}
+                  </x-dropdown-link>
                   <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <x-dropdown-link :href="route('logout')"

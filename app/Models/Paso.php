@@ -11,6 +11,8 @@ class Paso extends Model
 
     protected $fillable = ['nombre', 'descripcion', 'orden'];
 
+    protected $with = ['fotos'];
+
     /**
      * El paso pertenece a una receta
      *

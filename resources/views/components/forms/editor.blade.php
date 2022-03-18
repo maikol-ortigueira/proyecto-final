@@ -1,4 +1,9 @@
-@props(['editor', 'content', 'formname'])
+@props(['editor', 'content', 'formname', 'name' => null])
+@if (!$name)
+    @php
+      $name = $editor
+    @endphp
+@endif
 {{-- Para que funcione y evitar duplicidades se deberá copiar y pegar 
     en el fondo de la página principal el siguiente código descomentado
     debes colocarlo antes del @push('bottom') --}}
@@ -27,7 +32,7 @@
     function guarda{{ $editor }}() {
       formulario = document.getElementById('{{ $formname }}');
       let input = document.createElement('input');
-      input.setAttribute('name', '{{ $editor }}');
+      input.setAttribute('name', '{{ $name }}');
       input.setAttribute('value', {{ $editor }}.root.innerHTML);
       input.setAttribute('type', 'hidden')
       formulario.appendChild(input);

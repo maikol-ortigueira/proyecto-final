@@ -11,11 +11,13 @@ class Rol extends Model
 
     protected $table = 'roles';
 
+    protected $fillable = ['nombre'];
+
     /**
      * Un rol puede pertenecer a varios usuarios
      */
     public function users ()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->using(RolUser::class);
     }
 }

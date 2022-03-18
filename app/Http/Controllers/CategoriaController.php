@@ -15,9 +15,8 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::orderByDesc('created_at');
-        ddd(Categoria::all());
-        return view('categorias.index', ['categorias' => Categoria::all()]);
+        $categorias = Categoria::latest()->paginate(10);
+        return view('admin.categorias.index', ['categorias' => $categorias]);
     }
 
     /**
@@ -27,7 +26,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categorias.new');
     }
 
     /**
@@ -38,18 +37,9 @@ class CategoriaController extends Controller
      */
     public function store(StoreCategoriaRequest $request)
     {
-        //
-    }
+        Categoria::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Categoria  $categoria
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Categoria $categoria)
-    {
-        //
+        return redirect()->route('admin.categorias.index')->with('success', 'La categoría se ha creado con éxito');
     }
 
     /**
@@ -60,7 +50,7 @@ class CategoriaController extends Controller
      */
     public function edit(Categoria $categoria)
     {
-        //
+        return view ('admin.categorias.edit', ['categoria' => $categoria]);
     }
 
     /**
@@ -72,7 +62,11 @@ class CategoriaController extends Controller
      */
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        //
+        // La validación se realiza en\App\Http\Requests\UpdateCategoriaRequest
+        $data = $request->all();
+        $categoria->update($data);
+
+        return redirect()->route('admin.categorias.index')->with('success', 'La categoría se ha actualizado con éxito!!');
     }
 
     /**
@@ -83,6 +77,7 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categoria)
     {
-        //
+        $categoria->delete();
+        return redirect()->route('admin.categorias.index')->with('success', 'La categoría se ha eliminado con éxito!');
     }
 }

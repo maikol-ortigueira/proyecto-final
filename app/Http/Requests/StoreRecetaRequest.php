@@ -31,7 +31,7 @@ class StoreRecetaRequest extends FormRequest
         return [
             'nombre' => 'required',
             'descripcion' => 'required',
-            'raciones' => 'required, numeric',
+            'raciones' => ['required', 'numeric'],
             'imagenes_subidas.*' => 'image'
         ];
     }

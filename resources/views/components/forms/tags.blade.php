@@ -1,5 +1,5 @@
-@props(['etiquetas'])
-@if ($etiquetas !== 'null')
+@props(['etiquetas' => null])
+@if ($etiquetas !== null)
   @php
     $etiquetas = $etiquetas->pluck('id')->toArray();
   @endphp

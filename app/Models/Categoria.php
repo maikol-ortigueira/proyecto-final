@@ -9,6 +9,8 @@ class Categoria extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre', 'parent_id', 'type'];
+
     /**
      * Muchas unidades pueden pertencer a una categoría
      *

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EditPerfilController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -53,4 +54,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
+    Route::get('perfil/{user}/edit', [EditPerfilController::class, 'edit'])
+        ->middleware(['soy_yo'])
+        ->name('perfil.editar');
+    Route::patch('perfil/{user}', [EditPerfilController::class, 'update'])->name('perfil.update');
 });

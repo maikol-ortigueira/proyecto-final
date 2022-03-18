@@ -9,6 +9,8 @@ class Etiqueta extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre'];
+
     /**
      * Método para asignar etiquetas a las recetas
      *

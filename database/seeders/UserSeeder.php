@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Perfil;
 use App\Models\Rol;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -18,7 +19,7 @@ class UserSeeder extends Seeder
     {
         $roles = Rol::all()->where('nombre', '<>', 'superadmin')->pluck('id')->all();
 
-        User::create([
+        $miUsuario = User::create([
             'name' => 'Maikol Fustes',
             'email' => 'maikol.ortigueira@gmail.com',
             'email_verified_at' => now(),
@@ -26,7 +27,9 @@ class UserSeeder extends Seeder
             'remember_token' => \Illuminate\Support\Str::random(10),
         ])->roles()->sync([1]);
         
-        $users = User::factory(10)->create();
+        $miPerfil = Perfil::factory(1)->state(['user_id' => '1'])->create();
+
+        $users = User::factory(10)->hasPerfil()->create();
         foreach ($users as $user) {
             $rol = Arr::random($roles);
             $user->roles()->attach([$rol]);

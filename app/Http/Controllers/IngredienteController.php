@@ -15,7 +15,8 @@ class IngredienteController extends Controller
      */
     public function index()
     {
-        //
+        $ingredientes = Ingrediente::latest()->paginate(10);
+        return view('admin.ingredientes.index', ['ingredientes' => $ingredientes]);
     }
 
     /**
@@ -25,7 +26,7 @@ class IngredienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.ingredientes.new');
     }
 
     /**
@@ -36,18 +37,9 @@ class IngredienteController extends Controller
      */
     public function store(StoreIngredienteRequest $request)
     {
-        //
-    }
+        Ingrediente::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ingrediente  $ingrediente
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ingrediente $ingrediente)
-    {
-        //
+        return redirect()->route('admin.ingredientes.index')->with('success', 'El ingrediente se ha añadido a la base de datos!!');
     }
 
     /**
@@ -58,7 +50,7 @@ class IngredienteController extends Controller
      */
     public function edit(Ingrediente $ingrediente)
     {
-        //
+        return view('admin.ingredientes.edit', ['ingrediente' => $ingrediente]);
     }
 
     /**
@@ -70,7 +62,11 @@ class IngredienteController extends Controller
      */
     public function update(UpdateIngredienteRequest $request, Ingrediente $ingrediente)
     {
-        //
+        // La validación se realiza en App\Http\Requests\UpdateIngredienteRequest
+        $data = $request->all(['nombre', 'unidad_id']);
+        $ingrediente->update($data);
+
+        return redirect(route('admin.ingredientes.index'))->with('success', 'El ingrediente se ha actualizado correctamente!!');
     }
 
     /**
@@ -81,7 +77,9 @@ class IngredienteController extends Controller
      */
     public function destroy(Ingrediente $ingrediente)
     {
-        //
+        $ingrediente->delete();
+
+        return back()->with('success', 'El ingrediente se ha eliminado con éxito!!');
     }
 
     /**

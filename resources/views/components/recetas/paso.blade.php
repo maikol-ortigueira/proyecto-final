@@ -21,15 +21,16 @@
     </div>
     <div class="col-span-3 flex flex-col">
         <label for="pasos_{{ $orden }}_fotos">Fotos<span class="ml-1">(*)</span></label>
-        <input type="file" multiple name="pasos[{{ $orden }}][fotos][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_{{ $orden }}_pasos">
+        <input type="file" multiple name="pasos[{{ $orden }}][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_{{ $orden }}_pasos">
     </div>
+    <input type="hidden" name="pasos[{{ $orden }}][id]" value="{{ $paso->id }}">
   </div>
   {{-- imagenes --}}
   <div class="my-10 grid grid-cols-4">
     @foreach ($paso->fotos as $foto)
       <div id="contenedor-imagen-{{ $foto->id }}">
         <div class="relative mx-auto h-64 w-64">
-          <img src="{{ $foto->url }}" class="h-64 w-full">
+          <img src="{{ asset('storage/pasos/' . $foto->url) }}" class="h-64 w-full">
           <x-svgs.close-simbol class="absolute top-1 right-1 h-10 w-10 cursor-pointer rounded-3xl bg-white p-2"
             x-on:click="borraImagen({{ $foto->id }})" />
         </div>

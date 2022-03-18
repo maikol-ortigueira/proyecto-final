@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePerfilRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,8 @@ class UpdatePerfilRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // Solo un superadministrador puede crear usuarios
+        return auth()->user()->isAdmin('superadmin');
     }
 
     /**

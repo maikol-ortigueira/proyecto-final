@@ -13,7 +13,7 @@ class UpdateEtiquetaRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateEtiquetaRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'nombre' => ['required', 'unique:etiquetas,nombre,' . $this->etiqueta->id] // Excluimos el propio nombre del registro
         ];
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="text-xl font-semibold capitalize leading-tight text-gray-800">
-      {{ __('edit recipe') }}
+      {{ __('edit') . ' ' . __('recipe') }}
     </h2>
   </x-slot>
 
@@ -69,7 +69,7 @@
               class="@error('nombre') border-red-300 @else border-gray-300 @enderror mt-2 rounded-md border py-2 px-4"
               name="nombre" id="nombre" value="{{ old('nombre', $receta->nombre) }}">
             {{-- Captura el error si existe --}}
-            @error('raciones')
+            @error('nombre')
               <span class="text-xs text-red-500">{{ $message }}</span>
             @enderror
           </div>
@@ -92,7 +92,7 @@
             <label for="categoria" class="capitalize">{{ __('category') }}<span
                 class="ml-1">(*)</span></label>
             <select name="categoria" id="categoria" required
-              class="@error('raciones') border-red-300 bg-red-100 @else border-gray-300 @enderror mt-2 rounded-md border bg-white py-2 px-4">
+              class="@error('categoria') border-red-300 bg-red-100 @else border-gray-300 @enderror mt-2 rounded-md border bg-white py-2 px-4">
               {{-- Opción vacía --}}
               <option value="">- {{ __('Select category') }} -</option>
               {{-- Cargar opciones --}}
@@ -119,7 +119,8 @@
           @foreach ($receta->fotos as $foto)
             <div id="contenedor-imagen-{{ $foto->id }}">
               <div class="relative mx-auto h-64 w-64">
-                <img src="{{ asset('storage/recetas/' . $foto->url) }}" class="h-64 w-full">
+                {{-- <img src="{{ asset('storage/recetas/' . $foto->url) }}" class="h-64 w-full"> --}}
+                <img src="{{ asset( '/storage/recetas/' . $foto->url) }}" class="h-64 w-full">
                 <x-svgs.close-simbol class="absolute top-1 right-1 h-10 w-10 cursor-pointer rounded-3xl bg-white p-2"
                   x-on:click="borraImagen({{ $foto->id }})" />
               </div>
@@ -127,7 +128,7 @@
           @endforeach
         </div>
         {{-- subida de nuevas imágenes --}}
-        <x-forms.label name="fotos" label="add photos" field="fotos" />
+        <x-forms.label name="fotos" label="{{__('add photos')}}" field="fotos" />
         <x-forms.drag-and-drop-file name="fotos" id="receta" />
       </div>
 
@@ -308,8 +309,9 @@
                         </div>
                         <div class="col-span-3 flex flex-col">
                             <label for="pasos_${siguiente}_fotos">Fotos<span class="ml-1">(*)</span></label>
-                            <input type="file" name="pasos[${siguiente}][fotos][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_${siguiente}_pasos">
+                            <input type="file" name="pasos[${siguiente}][]" class="border-gray-300  mt-2 rounded-md border py-2 px-4" id="fotos_${siguiente}_pasos">
                         </div>
+                        <input type="hidden" name="pasos[${siguiente}][id]" value="0" />
                     </div>
                 </div>
             </div>

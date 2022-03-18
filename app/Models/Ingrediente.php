@@ -9,6 +9,10 @@ class Ingrediente extends Model
 {
     use HasFactory;
 
+    protected $with = ['recetas', 'etiquetas'];
+
+    protected $fillable = ['nombre', 'unidad_id'];
+
     /**
      * Relación con la tabla recetas
      *

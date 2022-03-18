@@ -20,6 +20,7 @@ class CreatePerfilesTable extends Migration
             $table->string('cp', 20);
             $table->text('telefonos');
             $table->string('provincia', 100);
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

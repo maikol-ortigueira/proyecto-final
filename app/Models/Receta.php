@@ -13,12 +13,10 @@ class Receta extends Model
     protected $fillable = ['nombre', 'descripcion', 'raciones'];
 
     // Queremos que siempre cargue pasos, fotos, autor, categoría y etiquetas con cada receta
-    protected $with = ['pasos', 'fotos', 'categoria', 'autor', 'etiquetas'];
+    protected $with = ['pasos', 'fotos', 'categoria', 'autor', 'etiquetas', 'ingredientes'];
 
     /**
      * Relación con la tabla ingredientes
-     *
-     * @return void
      */
     public function ingredientes()
     {
@@ -28,18 +26,16 @@ class Receta extends Model
     /**
      * Tiene una sola categoría
      *
-     * @return void
      */
     public function categoria()
     {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
     /**
      * Puede tener varias etiquetas
      * Las etiquetas solo corresponden a recetas, no comparten
      *
-     * @return void
      */
     public function etiquetas()
     {
@@ -49,7 +45,6 @@ class Receta extends Model
     /**
      * Una receta puede tener varios pasos
      *
-     * @return void
      */
     public function pasos()
     {
@@ -58,8 +53,7 @@ class Receta extends Model
 
     /**
      * Una receta debe tener un autor
-     *
-     * @return void
+     * 
      */
     public function autor()
     {
@@ -69,7 +63,6 @@ class Receta extends Model
     /**
      * Una receta puede tener varias fotos
      *
-     * @return void
      */
     public function fotos()
     {
