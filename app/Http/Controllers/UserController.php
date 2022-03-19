@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
         // Mostramos los usuarios ordenados por rol
-        return view('admin.users.index', ['users' => User::orderBy('rol')->paginate(10)]);
+        return view('admin.users.index', ['users' => User::paginate(10)]);
     }
 
     /**
