@@ -32,7 +32,7 @@
       </div>
       <div id="main-menu" class="col-span-3 flex gap-4">
         <a href="{{ url('/') }}" class="uppercase">{{ __('recipes') }}</a>
-        <a href="{{ url('/contacto') }}" class="uppercase">{{ __('contact') }}</a>
+        {{-- <a href="{{ url('/contacto') }}" class="uppercase">{{ __('contact') }}</a> --}}
 
       </div>
       @if (Route::has('login'))
