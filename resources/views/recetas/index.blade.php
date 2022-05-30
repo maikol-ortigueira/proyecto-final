@@ -1,10 +1,10 @@
 <x-guest-layout>
   <div class="min-h-full" x-data="main()"
     x-init="fetch(url).then(response => response.json()).then(json => {recetas = json.recetas.data})">
-    <div id="recetas-section-1" class="h-72">
-      <div class="flex h-full items-center pl-24">
-        <div class="w-1/3">
-          <h1 class="text-primary-600 text-6xl font-bold">{{ __('What do we eat this week?') }}</h1>
+    <div id="recetas-section-1" class="h-20 md:h-72">
+      <div class="flex h-full items-center pl-4 md:pl-24">
+        <div class="w-32 md:w-1/3">
+          <h1 class="text-primary-600 md:text-6xl font-bold">{{ __('What do we eat this week?') }}</h1>
         </div>
       </div>
     </div>
@@ -45,9 +45,9 @@
 
               return str.join("&");
             },
-            buscarDeForm: async function() {
+            buscarDeForm: async function(formulario) {
               // Recuperamos los datos del formulario
-              let form = document.getElementById('filtrosForm');
+              let form = document.getElementById(formulario);
               let cat = form.elements['categoria[]'];
               let tags = form.elements['tag[]'];
               // Inicializamos variables

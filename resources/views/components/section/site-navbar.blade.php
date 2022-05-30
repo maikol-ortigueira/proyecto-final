@@ -1,6 +1,6 @@
 <div class="border-primary-200 border-b drop-shadow-md">
-  <div class="container mx-auto py-2">
-    <div class="grid grid-cols-6 items-center gap-3">
+  <div class="container mx-auto py-2" x-data="{ movil: false }" x-on:keydown.window.escape="movil = false">
+    <div class="grid items-center lg:grid-cols-6 px-4 gr grid-cols-3 gap-10">
       <div class="logo">
         <div class="inline-block">
           <a href="{{ url('/') }}">
@@ -8,9 +8,43 @@
           </a>
         </div>
       </div>
+
+      {{-- Versión movil --}}
+      <div x-show="movil" class="fixed inset-0 z-40 flex lg:hidden" aria-modal="true">
+          {{-- overlay oscuro --}}
+        <div x-show="movil" x-transition:enter="transition-opacity ease-linear duration-300"
+          x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+          x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+          x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-25" x-on:click="movil = false"
+          aria-hidden="true">
+        </div>
+        {{-- Panel lateral izquierdo --}}
+        <div x-show="movil" x-transition:enter="transition ease-in-out duration-300 transform"
+          x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+          x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0"
+          x-transition:leave-end="translate-x-full"
+          class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+          <div class="flex items-center justify-between px-4">
+            <h2 class="text-lg font-medium capitalize text-gray-900">{{ __('filters') }}</h2>
+            <button type="button"
+              class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+              x-on:click="movil = false">
+              <span class="sr-only">{{ __('Close menu') }}</span>
+              <x-svgs.close-simbol />
+            </button>
+          </div>
+          <!-- Filtros -->
+          <form class="mt-4 border-t border-gray-200" method="post" action="#" id="filtros-movil">
+
+          </form>
+        </div>
+      </div>
+
+      {{-- Versión desktop --}}
+      {{-- Selector de idioma --}}
       <div x-data="{open: false}" class="relative">
         <div x-on:click="open = !open" x-on:click.outside="open = false"
-          class="inline-flex w-36 cursor-pointer justify-between rounded border py-1 px-3 pl-3">
+          class="hidden lg:inline-flex w-36 cursor-pointer justify-between rounded border py-1 px-3 pl-3">
           <span>
             @if (App::getLocale() == 'es')
               Español
@@ -30,13 +64,20 @@
           </div>
         </template>
       </div>
-      <div id="main-menu" class="col-span-3 flex gap-4">
+      <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+          x-on:click="movil = true">
+          <span class="sr-only capitalize">{{ __('filters') }}</span>
+          <x-svgs.filter />
+      </button>
+      {{-- Menú principal --}}
+      <div id="main-menu" class="col-span-3 gap-4 hidden lg:inline-flex">
         <a href="{{ url('/') }}" class="uppercase">{{ __('recipes') }}</a>
         {{-- <a href="{{ url('/contacto') }}" class="uppercase">{{ __('contact') }}</a> --}}
 
       </div>
+      {{-- Botón usuario --}}
       @if (Route::has('login'))
-        <div class="hidden sm:inline-block">
+        <div class="hidden lg:inline-block">
           @auth
             <div class="relative" x-data="{open: false}">
               <div class="inline-flex cursor-pointer items-center gap-2 text-sm" x-on:click="open = !open"
