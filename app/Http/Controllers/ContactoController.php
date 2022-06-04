@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactoRequest;
+use App\Mail\NuevoContacto;
 use App\Mail\RespuestaContacto;
 use App\Models\Contacto;
 use Illuminate\Http\Request;
@@ -25,8 +26,12 @@ class ContactoController extends Controller
     {
         $contacto = Contacto::create($request->all());
 
+        // Correo al administrador del sitio
+        Mail::to(config('mail.from')['address'])->send(new NuevoContacto($contacto));
+
+        // Correo al contacto
         Mail::to($contacto)->send(new RespuestaContacto($contacto));
 
-        redirect()->route('home')->with('success', 'Gracías por contactar');
+        return redirect()->route('home')->with('success', 'Gracías por contactar');
     }
 }
