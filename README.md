@@ -1,5 +1,8 @@
 ## Recetucha
 ***
+
+<img src="img.png" width="200" style="margin: auto;">
+
 Recetucha es el resultado de mi proyecto fin de ciclo.
 
 Consiste en una aplicación que permite desplegar un sitio de recetas en la web.
@@ -151,10 +154,40 @@ Dentro de la página *etiquetas* debemos pulsar *Nueva etiqueta*, y simplemente 
 
 Dentro de la página *categorías* debemos pulsar *Nueva categoría*.
 
-El formulario nos pide el nombre de la categoría, una categoría padre (suponiendo que la categoría a crear será una sub-categoría), y finalmente el tipo de categoría.
+El formulario nos pide el nombre de la categoría, una categoría padre (suponiendo que la categoría a crear será una sub-categoría).
 
-Los tipos permitidos son:
--   Unidad
+##### Crear ingredientes
 
-Para crear una receta debemos acceder a recetas
+Dentro de la página de **ingredientes** debemos pulsar sobre **Nuevo ingrediente**.
 
+Ya dentro del formulario debemos indicar el nombre del ingrediente y el tipo de unidad de medida para dicho ingrediente.
+
+##### **Crear recetas**
+
+Una vez que tengamos etiquetas, categorías e ingredientes podemos crear la receta.
+
+Dentro de la página **recetas** pulsamos sobre **nueva receta**
+
+Debemos cubrir los siguientes campos:
+
+**Pestaña Receta**
+***
+
+- **Nombre** de la receta
+- **Porciones** que permite crear la receta
+- **Categoría** a la que pertenece
+- Una o varias **etiquetas**
+- La **descripción** de la receta
+- Una o varias **fotos** de la receta
+
+**Pestaña Ingredientes**
+***
+Pulsando sobre el botón **añadir ingrediente** podemos ir añadiendo tantos como deseemos, siempre y cuando los hayamos dado de alta previamente en los pasos anteriores.
+
+Debemos seleccionar el ingrediente, la cantidad necesaria y el tipo de unidad al que corresponde esa cantidad.
+
+**Pestaña Pasos**
+
+En esta sección podemos ir añadiendo los pasos necesarios para crear nuestra receta. Pulsando sobre el botón **añadir paso** podemos darle un **nombre** al paso, añadir una **descripción** y adjuntar **fotos** a la descripción del paso.
+
+Finalmente es suficiente con pulsar **actualizar** y la receta se mostrará en **recetucha**

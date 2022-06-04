@@ -20,10 +20,11 @@ class AdminRecetaController extends Controller
         // Limitar permisos de edición o actualización al autor y al superadministrador
         $this->middleware('esautor')->except(['index', 'create', 'store']);
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -41,7 +42,7 @@ class AdminRecetaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -51,13 +52,12 @@ class AdminRecetaController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\StoreRecetaRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRecetaRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreRecetaRequest $request)
     {
         // Las validaciones se realizan en App\Http\Requests\StoreRecetaRequest
-        //ddd($request->receta);
         $receta = new Receta;
         $receta->categoria()->associate($request->categoria);
         $receta->user_id = auth()->user()->id;
@@ -110,23 +110,23 @@ class AdminRecetaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Receta  $recetas
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Receta $recetas
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(Receta $receta)
     {
-        return view('admin.recetas.edit', [
+        return view('admin.recetas.edit', array(
             'receta' => $receta,
             'categoriasReceta' => Categoria::all()->where('type', Receta::class),
             'etiquetas' => Etiqueta::all()
-        ]);
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateRecetaRequest  $request
-     * @param  \App\Models\Receta  $recetas
+     * @param \App\Http\Requests\UpdateRecetaRequest $request
+     * @param \App\Models\Receta $recetas
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRecetaRequest $request, Receta $receta)
@@ -168,7 +168,7 @@ class AdminRecetaController extends Controller
 
             foreach ($request->pasos as $orden => $paso) {
                 $paso['orden'] = $orden;
-                if ((int) $paso['id'] === 0) {
+                if ((int)$paso['id'] === 0) {
                     $pasoModel = $receta->pasos()->create($paso);
                 } else {
                     $pasoModel = Paso::find($paso['id']);
@@ -200,14 +200,14 @@ class AdminRecetaController extends Controller
 
         $receta->ingredientes()->sync($ingredientes);
 
-        //  Todo ok.
+        //  No hay problemas, ok.
         return back()->with('success', 'La receta se ha actualizado sin ningún problema!!.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Receta  $recetas
+     * @param \App\Models\Receta $recetas
      * @return \Illuminate\Http\Response
      */
     public function destroy(Receta $receta)
@@ -219,7 +219,7 @@ class AdminRecetaController extends Controller
 
     /**
      * Método para subir y almacenar las imágenes
-     * 
+     *
      * @param object $imagenes La colección de imágenes cargadas por el usuario
      * @param string $carpeta Carpeta de destino de las fotos
      */
@@ -239,8 +239,8 @@ class AdminRecetaController extends Controller
 
     /**
      * Método para almacenar una sola imagen
-     * 
-     * @param object $imagen    La imagen cargada por el usuario
+     *
+     * @param object $imagen La imagen cargada por el usuario
      * @param string $carpeta Carpeta de destino de las imagenes
      */
     protected function guardarImagen($imagen, $carpeta)
