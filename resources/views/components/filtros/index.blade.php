@@ -35,7 +35,7 @@
 
     {{-- Versión desktop --}}
     <main class="mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative z-10 flex items-baseline justify-between border-b border-gray-200 lg:pt-24 pb-6">
+      <div class="z-10 flex items-baseline justify-between border-b border-gray-200 lg:pt-24 pb-6">
         <h1 class="text-2xl lg:text-4xl font-extrabold capitalize tracking-tight">{{ __('recipes') }}</h1>
         <div class="flex items-center">
           {{-- des-comentar para mostrar filtro de ordenamiento --}}

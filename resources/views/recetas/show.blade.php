@@ -1,11 +1,11 @@
 <x-guest-layout>
-  <div class="container mx-auto mt-10">
+  <div class="container mx-auto mt-10 px-4 sm:px-0">
     {{-- nombre de la receta --}}
     <div class="border-secondary-400 mb-2 border-b">
       <h1 class="text-3xl font-bold">{{ $receta->nombre }}</h1>
     </div>
 
-    <div class="mb-4 flex justify-between">
+    <div class="mb-4 grid sm:grid-cols-2 gap-3">
       <div class="inline-flex gap-2">
         {{-- raciones --}}
         <div class="inline-block rounded-2xl bg-gray-100 py-1 px-4 text-sm">
@@ -18,7 +18,7 @@
           <span class="text-secondary-500">{{ $receta->categoria->nombre }}</span>
         </div>
       </div>
-      <div>
+      <div class="sm:text-right">
         {{-- autor --}}
         <div class="text-sm">
           <span class="text-secondary-500">{{ __('by') }}</span>
@@ -28,11 +28,11 @@
     </div>
     {{-- fotos de la receta --}}
     @if (isset($receta->fotos) && count($receta->fotos) > 0)
-      <div class="mb-6 inline-flex gap-8">
+      <div class="mb-6 gap-8 flex flex-col md:flex-row">
         @foreach ($receta->fotos as $foto)
-          <div class="h-72">
+          <div class="max-h-72">
             <img src="{{ asset('/storage/' . $foto->url) }}" alt="Foto receta {{ $receta->nombre }}"
-              class="h-full">
+              class="w-auto sm:h-full m-auto max-h-72">
           </div>
         @endforeach
       </div>
@@ -76,11 +76,11 @@
             <div class="my-4">{{ $paso->descripcion }}</div>
             {{-- Fotos --}}
             @if (isset($paso->fotos) && count($paso->fotos) > 0)
-              <div class="mb-6 inline-flex gap-8">
+              <div class="mb-6 gap-8 flex flex-col md:flex-row">
                 @foreach ($paso->fotos as $foto)
-                  <div class="h-64">
+                  <div class="max-h-64">
                     <img src="{{ asset('/storage/' . $foto->url) }}"
-                      alt="Foto paso {{ $paso->nombre }} de la receta" class="h-full">
+                      alt="Foto paso {{ $paso->nombre }} de la receta" class="h-full m-auto max-h-64">
                   </div>
                 @endforeach
               </div>

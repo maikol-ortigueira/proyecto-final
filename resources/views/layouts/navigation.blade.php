@@ -34,6 +34,9 @@
               {{ __('Roles') }}
             </x-nav-link>
           @endif
+          <x-nav-link :href="route('admin.contactos.index')" :active="request()->routeIs('admin.contactos.index')">
+            {{ __('Contacts') }}
+          </x-nav-link>
         </div>
       </div>
 
@@ -61,7 +64,7 @@
               @csrf
 
               <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                  this.closest('form').submit();">
                 {{ __('Log Out') }}
               </x-dropdown-link>
             </form>

@@ -24,7 +24,7 @@
 
     <div class="etiquetas flex flex-row gap-2">
       <template x-for="etiqueta in receta.etiquetas">
-        <p x-text="etiqueta.nombre"></p>
+        <span x-text="etiqueta.nombre" class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-primary-100 bg-primary-600 rounded-full"></span>
       </template>
     </div>
     <div class="mt-4 text-right ml-4">
