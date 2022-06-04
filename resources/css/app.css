@@ -2,6 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
 #recetas-section-1 {
     background-image: url('../img/imagen-portada-1.png');
     background-size: cover;

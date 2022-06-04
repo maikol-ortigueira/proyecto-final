@@ -2,7 +2,7 @@
 <div class="flex items-center">
   <input 
     id="filter-size-5"
-    x-on:change="buscarDeForm()"
+    x-on:change="buscarDeForm('filtros-desktop')"
     name="{{ $form }}[]"
     value="{{ $item->id }}"
     type="checkbox"

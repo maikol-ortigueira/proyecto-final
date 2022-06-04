@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactoController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function index()
     {
         return view('contacto.new');
     }
@@ -32,6 +27,6 @@ class ContactoController extends Controller
 
         Mail::to($contacto)->send(new RespuestaContacto($contacto));
 
-        redirect()->route('inicio')->with('success', 'Gracías por contactar');
+        redirect()->route('home')->with('success', 'Gracías por contactar');
     }
 }

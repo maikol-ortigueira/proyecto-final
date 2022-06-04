@@ -26,16 +26,17 @@
           </button>
         </div>
         <!-- Filtros -->
-        <form class="mt-4 border-t border-gray-200">
-          <x-filtros.movil.checkboxes />
+        <form class="mt-4 border-t border-gray-200" method="post" action="#" id="filtros-movil">
+          <x-filtros.movil.checkboxes :items="$tag" form="tag" />
+          <x-filtros.movil.checkboxes :items="$categoria" form="categoria" />
         </form>
       </div>
     </div>
 
     {{-- Versión desktop --}}
     <main class="mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative z-10 flex items-baseline justify-between border-b border-gray-200 pt-24 pb-6">
-        <h1 class="text-4xl font-extrabold capitalize tracking-tight">{{ __('recipes') }}</h1>
+      <div class="z-10 flex items-baseline justify-between border-b border-gray-200 lg:pt-24 pb-6">
+        <h1 class="text-2xl lg:text-4xl font-extrabold capitalize tracking-tight">{{ __('recipes') }}</h1>
         <div class="flex items-center">
           {{-- des-comentar para mostrar filtro de ordenamiento --}}
           {{-- <x-forms.dropdown :items="$items" /> --}}
@@ -49,12 +50,12 @@
         </div>
       </div>
 
-      <section aria-labelledby="products-heading" class="pt-6 pb-24">
+      <section aria-labelledby="products-heading" class="pt-6 pb-4 lg:pb-24">
         <h2 id="products-heading" class="sr-only capitalize">{{ __('recipes') }}</h2>
 
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-6">
           <!-- Filtros -->
-          <form class="hidden lg:block" method="post" action="#" id="filtrosForm">
+          <form class="hidden lg:block" method="post" action="#" id="filtros-desktop">
             <x-filtros.desktop.checkboxes :items="$tag" form="tag" />
             <x-filtros.desktop.checkboxes :items="$categoria" form="categoria" />
             <div class="text-right mt-6">

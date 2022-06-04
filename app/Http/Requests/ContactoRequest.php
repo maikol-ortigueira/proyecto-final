@@ -13,7 +13,7 @@ class ContactoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ContactoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => ['alpha', 'nullable'],
+            'nombre' => ['string', 'nullable'],
             'email' => ['email', 'required'],
             'asunto' => ['string'],
             'contenido' => ['string']

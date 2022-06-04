@@ -1,10 +1,10 @@
 <footer class="text-white mt-10">
     <div class="bg-primary-900 py-4">
-        <div class="container mx-auto">
+        <div class="container mx-auto px-4">
             <div class="border-b border-white pb-4">
                 <x-svgs.logo-footer />
             </div>
-            <div class="grid grid-cols-8 py-6">
+            <div class="grid py-6 lg:grid-cols-8 grid-cols-2 gap-6">
                 <div class="col-span-2 flex flex-col gap-2">
                     <h3 class="text-2xl">{{ __('You like to cook') }}</h3>
                     <a href="http://maikol.eu" target="_blank" class="hover:text-secondary-300">© Maikol Fustes</a>

@@ -157,3 +157,4 @@ Los tipos permitidos son:
 -   Unidad
 
 Para crear una receta debemos acceder a recetas
+

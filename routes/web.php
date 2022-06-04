@@ -8,6 +8,7 @@ use App\Http\Controllers\IngredienteController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminContactoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,11 +33,10 @@ Route::resource('/admin/categorias', CategoriaController::class, ['names' => 'ad
 Route::resource('/admin/etiquetas', EtiquetaController::class, ['names' => 'admin.etiquetas', 'except' => ['show']]);
 Route::resource('/admin/users', UserController::class, ['names' => 'admin.users']);
 Route::resource('/admin/roles', RolController::class, ['names' => 'admin.roles'])->parameters(['roles' => 'rol']);
+Route::resource('/admin/contactos', AdminContactoController::class, ['names' => 'admin.contactos']);
 
 // Ruta para formulario de contacto
-Route::get('/contacto', function() {
-    return view('contacto.new');
-})->name('contacto');
+Route::resource('/contacto', ContactoController::class, ['only' => ['index', 'store']]);
 
 Route::get('/admin', function () {
     return view('admin.recetas.index');

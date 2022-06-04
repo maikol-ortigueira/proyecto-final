@@ -22,7 +22,12 @@ class AdminContactoController extends Controller
      */
     public function index()
     {
+        $contactos = Contacto::paginate(10);
 
+        return view(
+            'admin.contactos.index',
+            ['contactos' => $contactos]
+        );
     }
 
     /**
@@ -33,7 +38,9 @@ class AdminContactoController extends Controller
      */
     public function edit(Contacto $contacto)
     {
-        
+        return view('admin.contactos.edit', [
+            'contacto' => $contacto
+        ]); 
     }
 
     /**
@@ -43,5 +50,12 @@ class AdminContactoController extends Controller
     public function update(ContactoRequest $request, Contacto $contacto)
     {
         
+    }
+
+    public function destroy(Contacto $contacto)
+    {
+        $contacto->delete();
+
+        return redirect()->route('admin.contactos.index')->with('success', 'Contacto eliminado!');
     }
 }

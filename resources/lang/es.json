@@ -1,7 +1,14 @@
 {
     "home": "inicio",
+    "view": "ver",
     "recipes": "recetas",
     "contact": "contacto",
+    "contacts": "contactos",
+    "Contacts": "Contactos",
+    "Subject": "Asunto",
+    "subject": "asunto",
+    "Message": "Mensaje",
+    "message": "mensaje",
     "You like to cook": "Te gusta cocinar",
     "Site Map": "Mapa del sitio",
     "What do we eat this week?": "¿Qué comemos esta semana?",
@@ -773,5 +780,8 @@
     "Zip Code": "Código Postal",
     "profile": "perfil",
     "by": "por",
-    "preparation": "preparación"
+    "preparation": "preparación",
+    "send": "enviar",
+    "Send": "Enviar",
+    "Privacy policy": "Política de privacidad"
 }
