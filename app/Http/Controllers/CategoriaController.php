@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoriaRequest;
 use App\Http\Requests\UpdateCategoriaRequest;
 use App\Models\Categoria;
+use App\Models\Receta;
 
 class CategoriaController extends Controller
 {
@@ -15,7 +16,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::latest()->paginate(10);
+        $categorias = Categoria::where('type', Receta::class)->latest()->paginate(10);
         return view('admin.categorias.index', ['categorias' => $categorias]);
     }
 
@@ -37,7 +38,11 @@ class CategoriaController extends Controller
      */
     public function store(StoreCategoriaRequest $request)
     {
-        Categoria::create($request->all());
+        $data = $request->all();
+
+        $data['type'] = Receta::class;
+
+        Categoria::create($data);
 
         return redirect()->route('admin.categorias.index')->with('success', 'La categoría se ha creado con éxito');
     }

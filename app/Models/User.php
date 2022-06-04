@@ -80,7 +80,6 @@ class User extends Authenticatable
     public function scopeIsAdmin($query, $tipos = array())
     {
         $rolesAdmin = ['superadmin', 'editor'];
-
         foreach ($this->roles as $rol) {
             if (in_array($rol->nombre, $rolesAdmin)) {
                 if (count($tipos) > 0) {

@@ -26,7 +26,7 @@
           <div class="grid grid-cols-12 gap-4">
             {{-- Campo nombre --}}
             <div class="col-span-12 md:col-span-6">
-              <div class="mb-4"><label for="nombre" class="w-full capitalize">{{ _('name') }}</label></div>
+              <div class="mb-4"><label for="nombre" class="w-full capitalize">{{ __('name') }}</label></div>
               <div><input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-300" value=""></div>
               <div> {{-- Captura el error si existe --}}
                 @error('nombre')
@@ -38,18 +38,17 @@
             {{-- Campo parent_id --}}
             <div class="col-span-12 md:col-span-3">
               <div class="mb-4"><label for="parent_id"
-                  class="w-full">{{ _('Parent category') }}</label>
+                  class="w-full">{{ __('Parent category') }}</label>
               </div>
               <div>
 
                 <select name="parent_id" id="parent_id" class="form-select w-full rounded border-gray-300 py-2 pl-4">
                   <option value="">- {{ __('Select a parent') }} -</option>
                   @php
-                    $subcategories = App\Models\Categoria::all();
+                    $subcategories = App\Models\Categoria::where('type', App\Models\Receta::class)->get();
                   @endphp
                   @foreach ($subcategories as $item)
-                    <option value="{{ $item->id }}">
-                      {{ $item->nombre }}</option>
+                     <option value="{{ $item->id }}">{{ $item->nombre }}</option>
                   @endforeach
                 </select>
               </div>
@@ -60,29 +59,6 @@
               </div>
             </div>
             {{-- fin campo parent_id --}}
-            {{-- Campo type --}}
-            <div class="col-span-12 md:col-span-3">
-              <div class="mb-4"><label for="type" class="w-full">{{ _('Type') }}</label>
-              </div>
-              <div>
-                <select name="type" id="type" class="form-select w-full rounded border-gray-300 py-2 pl-4">
-                  <option value="">- {{ __('Select a type') }} -</option>
-                  @php
-                    $types = [['value' => App\Models\Unidad::class, 'texto' => __('unit')], ['value' => App\Models\Receta::class, 'texto' => __('recipe')]];
-                  @endphp
-                  @foreach ($types as $item)
-                    <option value="{{ $item['value'] }}">
-                      {{ $item['texto'] }}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div> {{-- Captura el error si existe --}}
-                @error('type')
-                  <span class="text-xs text-red-500">{{ $message }}</span>
-                @enderror
-              </div>
-            </div>
-            {{-- fin campo type --}}
 
           </div>
         </div>

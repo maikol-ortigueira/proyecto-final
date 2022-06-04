@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 class UserController extends Controller
 {
     /**
@@ -37,8 +38,19 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        // Las validaciones se realizan en App\Http\Requests\StoreUserRequest
-        User::create($request->all());
+        //ddd($request->all());
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+
+        event(new Registered($user));
+
+        // Guardar los datos del perfil
+        $user->perfil()->create($request->perfil);
+        $user->roles()->attach($request->roles);
 
         return redirect()->route('admin.users.index')->with('success', 'El usuario se ha creado con éxito!!');
     }
@@ -65,6 +77,8 @@ class UserController extends Controller
     {
         // La validación se realiza en App\Http\Requests\UpdateIngredienteRequest
         //$user->update($data);
+
+        //ddd($request->roles);
         $user->perfil()->update($request->perfil);
         $user->roles()->sync($request->roles);
 

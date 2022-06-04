@@ -26,7 +26,7 @@
           <div class="grid grid-cols-12 gap-4">
             {{-- Campo nombre --}}
             <div class="col-span-12 md:col-span-6">
-              <div class="mb-4"><label for="nombre" class="w-full">{{ _('name') }}</label></div>
+              <div class="mb-4"><label for="nombre" class="w-full capitalize">{{ __('name') }}</label></div>
               <div><input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-300" value=""></div>
               <div> {{-- Captura el error si existe --}}
                 @error('nombre')

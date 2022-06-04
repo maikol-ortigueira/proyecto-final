@@ -8,7 +8,7 @@
     {{-- Botón para añadir nuevos etiquetas --}}
     <div class="my-6 text-right">
       <a href="{{ route('admin.etiquetas.create') }}"
-        class="rounded bg-blue-500 py-1 px-2 capitalize text-blue-100 hover:bg-blue-800">{{ __('new') . ' ' . __('tag') }}</a>
+        class="rounded bg-blue-500 py-1 px-2 capitalize text-blue-100 hover:bg-blue-800">{{ __('Nueva') . ' ' . __('tag') }}</a>
     </div>
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

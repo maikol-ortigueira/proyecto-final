@@ -30,6 +30,6 @@ class CategoriaSeeder extends Seeder
             ],
         );
 
-        Categoria::factory(10)->state(['type' => Receta::class])->create();
+        //Categoria::factory(10)->state(['type' => Receta::class])->create();
     }
 }

@@ -27,18 +27,18 @@
           {{-- Receta --}}
           <li class="mr-2" x-on:click="tab='receta'">
             <p
-              :class="[tab ==='receta' 
-              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500' 
-              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter' 
+              :class="[tab ==='receta'
+              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500'
+              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter'
               ]">
               {{ __('Recipe') }}</p>
           </li>
           {{-- Ingredientes --}}
           <li class="mr-2" x-on:click="tab='ingredientes'">
             <p
-              :class="[tab ==='ingredientes' 
-              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500' 
-              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter' 
+              :class="[tab ==='ingredientes'
+              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500'
+              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter'
               ]">
               {{ __('Ingredientes') }}
             </p>
@@ -46,9 +46,9 @@
           {{-- Pasos --}}
           <li class="mr-2" x-on:click="tab='pasos'">
             <p
-              :class="[tab ==='pasos' 
-              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500' 
-              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter' 
+              :class="[tab ==='pasos'
+              ? 'active inline-block rounded-t-lg border-b-2 border-secondary-600 py-4 px-4 text-center text-sm font-medium text-secondary-600 dark:border-secondary-500 dark:text-secondary-500'
+              : 'inline-block rounded-t-lg border-b-2 border-transparent py-4 px-4 text-center text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 cursor-poniter'
               ]">
               {{ __('Steps') }}
             </p>
@@ -218,7 +218,7 @@
                 <div class="p-6">
                     <div class="grid grid-cols-12 gap-10">
                         <div class="col-span-3 flex flex-col">
-                            <label for="pasos_${siguiente}_nombre" class="capitalize">name<span class="ml-1">(*)</span></label>
+                            <label for="pasos_${siguiente}_nombre" class="capitalize">nombre<span class="ml-1">(*)</span></label>
                             <input type="text" class="border-gray-300  mt-2 rounded-md border py-2 px-4" name=pasos[${siguiente}][nombre]" id="pasos_${siguiente}_nombre"
                                 value="Paso ${siguiente}">
                         </div>
@@ -273,7 +273,7 @@
                       </template>
                     </select>
                   </div>
-              
+
                 <div class="col-span-2 flex items-end">
                   <span x-on:click="showIngrediente_${siguiente} = false" class="border rounded py-1 px-4 bg-red-400 text-red-100 hover:bg-red-900 cursor-pointer">Eliminar</span>
                 </div>

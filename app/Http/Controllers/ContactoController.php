@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactoRequest;
+use App\Mail\RespuestaContacto;
 use App\Models\Contacto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactoController extends Controller
 {
@@ -26,7 +28,9 @@ class ContactoController extends Controller
      */
     public function store(ContactoRequest $request)
     {
-        Contacto::create($request->all());
+        $contacto = Contacto::create($request->all());
+
+        Mail::to($contacto)->send(new RespuestaContacto($contacto));
 
         redirect()->route('inicio')->with('success', 'Gracías por contactar');
     }

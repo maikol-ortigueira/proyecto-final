@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class UpdateUserRequest extends FormRequest
     public function authorize()
     {
         // Solo un superadministrador puede actualizar usuarios
-        return auth()->user()->isAdmin('superadmin');
+        return auth()->user()->isAdmin(['superadmin']);
     }
 
     /**
@@ -26,8 +27,11 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'perfil.cp' => ['numeric'],
-            'perfil.telefonos' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:9'
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['nullable', Rules\Password::defaults()],
+            'perfil.cp' => ['nullable', 'numeric'],
+            'perfil.telefonos' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+            'roles' => ['required']
         ];
     }
 }

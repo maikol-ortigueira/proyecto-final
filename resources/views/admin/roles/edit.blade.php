@@ -26,7 +26,7 @@
           <div class="grid grid-cols-12 gap-4">
             {{-- Campo nombre --}}
             <div class="col-span-12 md:col-span-6">
-              <div class="mb-4"><label for="nombre" class="w-full">{{ _('name') }}</label></div>
+              <div class="mb-4"><label for="nombre" class="w-full">{{ __('name') }}</label></div>
               @php
                 $protected = ['superadmin', 'editor', 'registrado'];
               @endphp

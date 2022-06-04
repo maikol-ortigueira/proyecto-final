@@ -29,10 +29,6 @@
                     class="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-400">
                     {{ __('parent') }}
                   </th>
-                  <th scope="col"
-                    class="py-3 px-6 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-400">
-                    {{ __('type') }}
-                  </th>
                   <th scope="col" class="relative py-3 px-6">
                     <span class="sr-only">Edit</span>
                   </th>
@@ -55,12 +51,6 @@
                       @if ($item->parent_id)
                         {{ App\Models\Categoria::find($item->parent_id)->nombre }}
                       @endif
-                    </td>
-                    @php
-                      $types = [App\Models\Unidad::class => __('unit'), App\Models\Receta::class => __('recipe')];
-                    @endphp
-                    <td class="whitespace-nowrap py-4 px-6 text-sm font-medium text-gray-900 dark:text-white">
-                      {{ $types[$item->type] }}
                     </td>
                     <td class="whitespace-nowrap py-4 px-6 text-right text-sm font-medium">
                       <a href="{{ route('admin.categorias.edit', ['categoria' => $item]) }}"

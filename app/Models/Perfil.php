@@ -13,6 +13,8 @@ class Perfil extends Model
 
     protected $fillable = ['domicilio', 'localidad', 'cp', 'telefonos', 'provincia'];
 
+    protected $nullable = ['domicilio', 'localidad', 'cp', 'telefonos', 'provincia'];
+
     /**
      * Un perfil pertenece solamente a un usuario
      *
@@ -20,7 +22,7 @@ class Perfil extends Model
      */
     public function user ()
     {
-        return $this->belongsTo(User::class, 'perfil_id');
+        return $this->belongsTo(User::class);
     }
 
     public function foto ()

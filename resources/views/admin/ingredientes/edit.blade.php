@@ -27,8 +27,8 @@
           <div class="grid grid-cols-12 gap-4">
             {{-- Campo nombre --}}
             <div class="col-span-12 md:col-span-6">
-              <div class="mb-4"><label for="nombre" class="w-full">{{ _('name') }}</label></div>
-              <div><input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-300"
+              <div class="mb-4"><label for="nombre" class="w-full capitalize">{{ __('name') }}</label></div>
+              <div><input type="text" name="nombre" id="nombre" class="w-full rounded border-gray-300 capitalize"
                   value="{{ old('nombre', $ingrediente->nombre) }}"></div>
               <div> {{-- Captura el error si existe --}}
                 @error('nombre')
@@ -39,7 +39,7 @@
             {{-- fin campo nombre --}}
             {{-- Campo unidad_id --}}
             <div class="col-span-12 md:col-span-3">
-              <div class="mb-4"><label for="unidad_id" class="w-full">{{ _('unit') }}</label>
+              <div class="mb-4"><label for="unidad_id" class="w-full capitalize">{{ __('unit') }}</label>
               </div>
               <div>
                 <select name="unidad_id" id="unidad_id" class="form-select w-full rounded border-gray-300 py-2 pl-4">
@@ -65,7 +65,7 @@
       {{-- Botón submit --}}
       <div class="my-10 text-left">
         <a href="{{ route('admin.ingredientes.index') }}" class="rounded bg-red-500 py-1 px-2 capitalize text-red-100 hover:bg-red-800" >{{ __('close') }}</a>
-        <button 
+        <button
           class="rounded bg-green-500 py-1 px-2 capitalize text-green-100 hover:bg-green-800">
           {{ __('update') }}
         </button>

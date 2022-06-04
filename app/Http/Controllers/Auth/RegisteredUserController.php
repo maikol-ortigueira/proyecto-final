@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rol;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -40,18 +41,26 @@ class RegisteredUserController extends Controller
             'perfil.cp' => ['numeric'],
             'perfil.telefonos' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:9'
         ]);
-        
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
-        
+
+
         event(new Registered($user));
-        
+
         // Guardar los datos del perfil
         $user->perfil()->create($request->perfil);
+
+        // Si el usuario se ha registrado en el front no tiene rol
+        if (!isset($request->roles))
+        {
+            // Se registra como usuario registrado
+            $registrado = Rol::where('nombre', 'registrado')->firstOrFail();
+            $user->roles()->attach([$registrado->id]);
+        }
 
         Auth::login($user);
 

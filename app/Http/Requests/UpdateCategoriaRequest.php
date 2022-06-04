@@ -24,8 +24,7 @@ class UpdateCategoriaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre' => 'required',
-            'type' => 'required'
+            'nombre' => 'required'
         ];
     }
 }

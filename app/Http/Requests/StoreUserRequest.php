@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules;
 
 class StoreUserRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class StoreUserRequest extends FormRequest
     public function authorize()
     {
         // Solo un superadministrador puede crear usuarios
-        return auth()->user()->isAdmin('superadmin');
+        return auth()->user()->isAdmin(['superadmin']);
     }
 
     /**
@@ -25,7 +26,12 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', Rules\Password::defaults()],
+            'perfil.cp' => ['numeric','nullable'],
+            'perfil.telefonos' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:9',
+            'roles' => ['required']
         ];
     }
 }
