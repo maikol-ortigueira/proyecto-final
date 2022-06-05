@@ -13,22 +13,23 @@ Dispone de una parte pública que muestras las recetas y un formulario de contac
 ***
 ### Requisitos técnicos
 
--   PHP >= 8.0
--   MCrypt PHP Extensión
--   [Composer](https://getcomposer.org/)
--   [Nodejs](https://nodejs.org/es/)
--   [npmjs](https://www.npmjs.com/)
--   Si el servidor utilizado es Apache deberá tener **mod_rewrite** habilitado
+- PHP >= 8.0
+- MCrypt PHP Extensión
+- [Composer](https://getcomposer.org/)
+- [Nodejs](https://nodejs.org/es/)
+- [npmjs](https://www.npmjs.com/)
+- Si el servidor utilizado es Apache deberá tener **mod_rewrite** habilitado
+***
 
 ### Pasos a seguir
 
-1. Clonar este repositorio en el servidor de destino
+1. **Clonar este repositorio en el servidor de destino**
 
 ```
 git clone https://github.com/maikol-ortigueira/proyecto-final.git
 ```
 
-2. Crear el archivo **.env**
+2.  **Crear el archivo **.env****
 
 Debes crear el archivo de variables de entorno **.env** a partir de **.env.example**.
 
@@ -41,13 +42,13 @@ Debes al menos configurar las siguiente variables:
 -   **DB_USERNAME**     El nombre de un usuario con privilegios sobre la base de datos
 -   **DB_PASSWORD**     La contraseña del usuario anterior para acceder a la base de datos
 
-3. Instalar los paquetes de **composer**
+3. **Instalar los paquetes de **composer****
 
 ```shell
 proyecto-final$ composer install
 ```
 
-4. Establecer la key de la aplicación
+4. **Establecer la key de la aplicación**
 
 Debes entrar en la carpeta que se ha creado al clonar el repositorio y desde la línea de comandos generar la key.
 
@@ -57,13 +58,13 @@ proyecto-final$ php artisan key:generate
 
 Este comando debería haber generado dicha key. Podrás comprobarlo entrando en el archivo .env, debería haber aplicado la key a la variable APP_KEY
 
-5. Instalar los paquetes de node
+5. **Instalar los paquetes de node**
 
 ```shell
 proyecto-final$ npm install
 ```
 
-6. Crear las tablas en la base de datos
+6. **Crear las tablas en la base de datos**
 
 Debemos volver a utilizar artisan
 
@@ -71,13 +72,13 @@ Debemos volver a utilizar artisan
 proyecto-final$ php artisan migrate
 ```
 
-7. Crear los registros de roles de usuario
+7. **Crear los registros de roles de usuario**
 
 ```shell
 proyecto-final$ php artisan db:seed --class RolSeeder
 ```
 
-8. Crear un usuario superadministrador para poder entrar a la parte privada
+8. **Crear un usuario superadministrador para poder entrar a la parte privada**
 
 ```shell
 proyecto-final$ php artisan db:seed --class UsuarioSeeder
@@ -88,27 +89,28 @@ Este comando creará un usuario con correo electrónico ``admin@ejemplo.com`` cu
 Podrás cambiar posteriormente su contraseña para hacer una mas segura.
 
 
-9. Crear los primeros registros de categorías
+9. **Crear los primeros registros de categorías**
 
 ```shell
 proyecto-final$ php artisan db:seed --class CategoriaSeeder
 ```
 
-10. Crear los registros de tipos de unidad de medida
+10. **Crear los registros de tipos de unidad de medida**
 
 ```shell
 proyecto-final$ php artisan db:seed --class UnidadSeeder
 ```
 
-11. Permitir que las imágenes sean accesibles
+11. **Permitir que las imágenes sean accesibles**
 
 ```shell
 proyecto-final$ php artisan storage:link
 ```
 
+***
 
 ## Como se usa
-***
+
 
 ### Parte privada
 
@@ -141,27 +143,27 @@ Para acceder al panel de control de la parte privada debemos pulsar sobre el ico
 Nos lleva a la página de inicio de sesión en la que debemos añadir nuestro correo electrónico y nuestra contraseña.
 
 Si el usuario y contraseña son correctos y disponemos de una cuenta de administrador nos habrá redirigido al panel de control.
-
+***
 #### **Creación de recetas**
 
 Antes de crear una receta debemos asegurarnos que disponemos de las etiquetas, categorías e ingredientes necesarios.
-
+***
 ##### Crear una etiqueta
 
 Dentro de la página *etiquetas* debemos pulsar *Nueva etiqueta*, y simplemente añadimos la nueva etiqueta.
-
+***
 ##### Crear una categoría
 
 Dentro de la página *categorías* debemos pulsar *Nueva categoría*.
 
 El formulario nos pide el nombre de la categoría, una categoría padre (suponiendo que la categoría a crear será una sub-categoría).
-
+***
 ##### Crear ingredientes
 
 Dentro de la página de **ingredientes** debemos pulsar sobre **Nuevo ingrediente**.
 
 Ya dentro del formulario debemos indicar el nombre del ingrediente y el tipo de unidad de medida para dicho ingrediente.
-
+***
 ##### **Crear recetas**
 
 Una vez que tengamos etiquetas, categorías e ingredientes podemos crear la receta.
@@ -169,9 +171,8 @@ Una vez que tengamos etiquetas, categorías e ingredientes podemos crear la rece
 Dentro de la página **recetas** pulsamos sobre **nueva receta**
 
 Debemos cubrir los siguientes campos:
-
-**Pestaña Receta**
 ***
+**Pestaña Receta**
 
 - **Nombre** de la receta
 - **Porciones** que permite crear la receta
@@ -179,13 +180,13 @@ Debemos cubrir los siguientes campos:
 - Una o varias **etiquetas**
 - La **descripción** de la receta
 - Una o varias **fotos** de la receta
-
-**Pestaña Ingredientes**
 ***
+**Pestaña Ingredientes**
+
 Pulsando sobre el botón **añadir ingrediente** podemos ir añadiendo tantos como deseemos, siempre y cuando los hayamos dado de alta previamente en los pasos anteriores.
 
 Debemos seleccionar el ingrediente, la cantidad necesaria y el tipo de unidad al que corresponde esa cantidad.
-
+***
 **Pestaña Pasos**
 
 En esta sección podemos ir añadiendo los pasos necesarios para crear nuestra receta. Pulsando sobre el botón **añadir paso** podemos darle un **nombre** al paso, añadir una **descripción** y adjuntar **fotos** a la descripción del paso.
