@@ -26,8 +26,8 @@ class ContactoRequest extends FormRequest
         return [
             'nombre' => ['string', 'nullable'],
             'email' => ['email', 'required'],
-            'asunto' => ['string'],
-            'contenido' => ['string']
+            'asunto' => ['required', 'string'],
+            'contenido' => ['required', 'string']
         ];
     }
 }

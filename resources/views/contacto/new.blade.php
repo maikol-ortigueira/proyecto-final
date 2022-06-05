@@ -25,25 +25,30 @@
                 </div>
                 <div class="mb-4 w-full">
                     <label for="email"
-                        class="mb-2 block font-medium capitalize text-gray-700">{{ __('Email') }}</label>
+                        class="mb-2 block font-medium capitalize text-gray-700">{{ __('Email') }} *</label>
                     <input type="email" name="email" id="email"
                         class="focus:shadow-outline w-full appearance-none rounded border leading-tight shadow focus:outline-none"
-                        placeholder="{{ __('Email') }}" value="{{ old('email') }}">
+                        placeholder="{{ __('Email') }}" value="{{ old('email') }}"
+                        aria-required="true"
+                    >
                 </div>
             </div>
             <div class="mb-4">
                 <label for="asunto"
-                    class="mb-2 block font-medium capitalize text-gray-700">{{ __('subject') }}</label>
+                    class="mb-2 block font-medium capitalize text-gray-700">{{ __('subject') }} *</label>
                 <input type="text" name="asunto" id="asunto"
                     class="focus:shadow-outline w-full appearance-none rounded border leading-tight shadow focus:outline-none"
                     placeholder="{{ __('Subject') }}" value="{{ old('asunto') }}">
             </div>
             <div class="mb-4">
                 <label for="contenido"
-                    class="mb-2 block font-medium capitalize text-gray-700">{{ __('message') }}</label>
+                    class="mb-2 block font-medium capitalize text-gray-700">{{ __('message') }} *</label>
                 <textarea name="contenido" id="contenido" cols="30" rows="10"
                     class="focus:shadow-outline w-full appearance-none rounded border px-3 py-4 leading-tight shadow focus:outline-none"
                     placeholder="{{ __('Message') }}">{{ old('contenido') }}</textarea>
+            </div>
+            <div class="mx-1.5">
+                <p>{{ __('Fields with * are required') }}</p>
             </div>
             <div class="text-right pt-4">
                 <button class="bg-primary-700 text-white px-4 py-2 ro rounded hover:bg-primary-300">
