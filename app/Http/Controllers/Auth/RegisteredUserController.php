@@ -38,8 +38,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'perfil.cp' => ['numeric'],
-            'perfil.telefonos' => 'regex:/^([0-9\s\-\+\(\)]*)$/|min:9'
+            'perfil.cp' => ['nullable', 'numeric'],
+            'perfil.telefonos' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:9'
         ]);
 
         $user = User::create([
@@ -48,14 +48,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-
         event(new Registered($user));
 
         // Guardar los datos del perfil
         $user->perfil()->create($request->perfil);
 
         // Si el usuario se ha registrado en el front no tiene rol
-        if (!isset($request->roles))
+        if (!$request->roles)
         {
             // Se registra como usuario registrado
             $registrado = Rol::where('nombre', 'registrado')->firstOrFail();

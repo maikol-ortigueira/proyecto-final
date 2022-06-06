@@ -9,6 +9,14 @@ Consiste en una aplicación que permite desplegar un sitio de recetas en la web.
 
 Dispone de una parte pública que muestras las recetas y un formulario de contacto, y de una parte privada que permite añadir nuevas recetas a usuarios con privilegios de acceso a dicha parte. Este usuario también puede revisar la lista de contactos recibidos.
 
+## **Tabla de contenido**
+- [Instalación](#instalacin)
+- [Como funciona](#como-se-usa)
+  - [Etiquetas](#crear-una-etiqueta)
+  - [Categorías](#crear-una-categora)
+  - [Ingredientes](#crear-ingredientes)
+  - [Recetas](#crear-recetas)
+***
 ## Instalación
 ***
 ### Requisitos técnicos
@@ -66,42 +74,28 @@ proyecto-final$ npm install
 
 6. **Crear las tablas en la base de datos**
 
-Debemos volver a utilizar artisan
+Debemos volver a utilizar artisan para crear las tablas de la base de datos y añadir unos cuantos registros necesarios 
+para la aplicación
 
 ```shell
-proyecto-final$ php artisan migrate
+proyecto-final$ php artisan migrate --seed
 ```
+Este acción, entre otras cosas, creará un usuario con correo electrónico ``admin@ejemplo.com`` cuya contraseña es ``password``.
 
-7. **Crear los registros de roles de usuario**
+Podrás cambiar posteriormente su contraseña por una mas segura.
 
-```shell
-proyecto-final$ php artisan db:seed --class RolSeeder
-```
-
-8. **Crear un usuario superadministrador para poder entrar a la parte privada**
-
-```shell
-proyecto-final$ php artisan db:seed --class UsuarioSeeder
-```
-
-Este comando creará un usuario con correo electrónico ``admin@ejemplo.com`` cuya contraseña es ``password``.
-
-Podrás cambiar posteriormente su contraseña para hacer una mas segura.
-
-
-9. **Crear los primeros registros de categorías**
+7. **Crear los primeros registros de categorías**
 
 ```shell
 proyecto-final$ php artisan db:seed --class CategoriaSeeder
 ```
-
-10. **Crear los registros de tipos de unidad de medida**
+8. **Crear los registros de tipos de unidad de medida**
 
 ```shell
 proyecto-final$ php artisan db:seed --class UnidadSeeder
 ```
 
-11. **Permitir que las imágenes sean accesibles**
+9. **Permitir que las imágenes sean accesibles**
 
 ```shell
 proyecto-final$ php artisan storage:link
@@ -144,7 +138,7 @@ Nos lleva a la página de inicio de sesión en la que debemos añadir nuestro co
 
 Si el usuario y contraseña son correctos y disponemos de una cuenta de administrador nos habrá redirigido al panel de control.
 ***
-#### **Creación de recetas**
+#### Creación de recetas
 
 Antes de crear una receta debemos asegurarnos que disponemos de las etiquetas, categorías e ingredientes necesarios.
 ***
