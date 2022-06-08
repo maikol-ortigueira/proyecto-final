@@ -171,7 +171,7 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
   @endpush
 
-  {{-- Javascrip que se cargará antes del cierre del body --}}
+  {{-- Javascript que se cargará antes del cierre del body --}}
   @push('bottom')
     <!-- Alpine data -->
     <script>
